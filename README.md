@@ -10,5 +10,6 @@ Veebirakenduste loomise aine raames valmiv projekt.
 * Kui http://localhost:8000 näed LARAVEL 5 teksti, siis on kõik õnnestunud
 
 
-Minul "composer update" ajal tekkis selline probleem: http://artarmstrong.com/blog/2014/12/23/how-to-fix-composer-update-failure-due-to-github-authorization/
+Minul "composer update" ajal tekkis selline probleem:
+ http://artarmstrong.com/blog/2014/12/23/how-to-fix-composer-update-failure-due-to-github-authorization/
 Leidsin vastavalt lehelt ka lahenduse.
