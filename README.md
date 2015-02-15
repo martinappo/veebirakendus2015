@@ -13,3 +13,8 @@ Veebirakenduste loomise aine raames valmiv projekt.
 Minul "composer update" ajal tekkis selline probleem:
  http://artarmstrong.com/blog/2014/12/23/how-to-fix-composer-update-failure-due-to-github-authorization/
 Leidsin vastavalt lehelt ka lahenduse.
+
+# Kogemustest Linuxi all:
+
+Üldiselt suuri probleeme ei tekkinud, kui vajalikud package'd lõpuks peale sain.
+
