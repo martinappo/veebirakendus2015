@@ -18,33 +18,44 @@
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+if ($_SERVER['SERVER_NAME'] == 'leiatrenn.crisp.ee') { //if staging environment
 
-/*
-|--------------------------------------------------------------------------
-| Turn On The Lights
-|--------------------------------------------------------------------------
-|
-| We need to illuminate PHP development, so let us turn on the lights.
-| This bootstraps the framework and gets it ready for use, then it
-| will load up this application so that we can run it and send
-| the responses back to the browser and delight our users.
-|
-*/
+	require __DIR__. '/../../leiatrenn/bootstrap/autoload.php';
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+	/*
+	|--------------------------------------------------------------------------
+	| Turn On The Lights
+	|--------------------------------------------------------------------------
+	|
+	| We need to illuminate PHP development, so let us turn on the lights.
+	| This bootstraps the framework and gets it ready for use, then it
+	| will load up this application so that we can run it and send
+	| the responses back to the browser and delight our users.
+	|
+	*/
 
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can simply call the run method,
-| which will execute the request and send the response back to
-| the client's browser allowing them to enjoy the creative
-| and wonderful application we have prepared for them.
-|
-*/
+	$app = require_once __DIR__.'/../../leiatrenn/bootstrap/app.php';
+
+	/*
+	|--------------------------------------------------------------------------
+	| Run The Application
+	|--------------------------------------------------------------------------
+	|
+	| Once we have the application, we can simply call the run method,
+	| which will execute the request and send the response back to
+	| the client's browser allowing them to enjoy the creative
+	| and wonderful application we have prepared for them.
+	|
+	*/
+
+} else {  //Local environment
+
+	require __DIR__. '/../bootstrap/autoload.php';
+	$app = require_once __DIR__.'/../bootstrap/app.php';
+
+}
+
+
 
 $kernel = $app->make('Illuminate\Contracts\Http\Kernel');
 
