@@ -9,6 +9,10 @@ Veebirakenduste loomise aine raames valmiv projekt.
 * Kui see tehtud, siis "php artisan serve"
 * Kui http://localhost:8000 näed LARAVEL 5 teksti, siis on kõik õnnestunud
 
+Minul "composer update" ajal tekkis selline probleem:
+ http://artarmstrong.com/blog/2014/12/23/how-to-fix-composer-update-failure-due-to-github-authorization/
+Leidsin vastavalt lehelt ka lahenduse.
+
 # Andmebaas ja keskkonna muutujad (environment variables)
 
 Andmebaasiks on mysql. Laravel kasutab andmebaasi haldamiseks migrationeid (kaustas database/migrations). Põhimõtteliselt on see andmebaasi versioonihaldus. See tähendab, et andmebaasi struktuuri saab üles seada ühe käsuga: "php artisan migrate" .
@@ -29,11 +33,6 @@ Andmebaasiks on mysql. Laravel kasutab andmebaasi haldamiseks migrationeid (kaus
 
 Edaspidi teeme andmebaasis muudatusi vaid migrate'i kasutades. Lisainfo: http://laravel.com/docs/5.0/migrations .
 
-
-
-Minul "composer update" ajal tekkis selline probleem:
- http://artarmstrong.com/blog/2014/12/23/how-to-fix-composer-update-failure-due-to-github-authorization/
-Leidsin vastavalt lehelt ka lahenduse.
 
 # Kogemustest Linuxi all:
 
