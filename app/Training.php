@@ -11,8 +11,14 @@ class Training extends Model {
 		'title',
 		'coordinates',
 		'type',
-		'description'
+		'description',
+		'user_id',
+		'confirmed'
 	];
+
+	public function scopeConfirmed($query) {
+		$query->where('confirmed', '=', true);
+	}
 
 	/**
 		* A training is owned by a user.

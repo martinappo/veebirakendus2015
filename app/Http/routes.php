@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/trainings', 'TrainingsController@index');
+Route::get('trainings', 'TrainingsController@index');
+Route::get('trainings/create', 'TrainingsController@create');
+Route::post('trainings', 'TrainingsController@store');
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');

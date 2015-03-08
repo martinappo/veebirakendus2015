@@ -14,14 +14,14 @@ class CreateTrainingsTable extends Migration {
 	{
 		Schema::create('trainings', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();
 			$table->string('title');
 			$table->string('aadress');
 			$table->string('coordinates');
-			$table->boolean('confirmed');
-			$table->enum('type', ['open', 'closed']);
+			$table->boolean('confirmed')->default(false);
+			$table->enum('type', ['open', 'closed'])->default('open');
 			$table->mediumText('description');
-			$table->double('rating');
+			$table->double('rating')->default(0.0);
 			$table->timestamps();
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')
