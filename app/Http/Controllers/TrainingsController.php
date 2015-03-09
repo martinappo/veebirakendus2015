@@ -20,8 +20,8 @@ class TrainingsController extends Controller {
 		return view('trainings.create');
 	}
 
-	public function store() {
-		$input = Request::all();
+	public function store(Requests\CreateTrainingRequest $request) {
+		$input = $request->all();
 
 		if (Auth::user()) {
 			$user_id = Auth::user()->id;

@@ -25,4 +25,12 @@
 			{!! Form::submit('Lisa treening', null, ['class' => 'btn btn-primary form-control']) !!}
 		</div>
 	{!! Form::close() !!}
+	
+	@if ($errors->any())
+		@foreach ($errors->all() as $error)
+			<li>
+				{{ $error }}
+			</li>
+		@endforeach
+	@endif
 @stop
