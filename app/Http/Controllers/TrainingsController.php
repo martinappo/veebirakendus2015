@@ -22,15 +22,10 @@ class TrainingsController extends Controller {
 	}
 
 	public function store(TrainingRequest $request) {
-		$input = $request->all();
 
-		if (Auth::user()) {
-			$user_id = Auth::user()->id;
-		}
-
-		$input['user_id'] = $user_id;
-		$input['confirmed'] = true;
-		Training::create($input); 
+		$training = new Training($request->all());
+		$training->confirmed = true;
+		Auth::user()->trainings()->save($training);
 
 		return redirect('trainings');
 	}
