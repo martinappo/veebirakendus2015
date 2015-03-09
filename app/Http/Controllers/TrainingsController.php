@@ -2,6 +2,7 @@
 
 use App\Training;
 use App\Http\Requests;
+use App\Http\Requests\TrainingRequest;
 use App\Http\Controllers\Controller;
 use Auth;
 
@@ -20,7 +21,7 @@ class TrainingsController extends Controller {
 		return view('trainings.create');
 	}
 
-	public function store(Requests\CreateTrainingRequest $request) {
+	public function store(TrainingRequest $request) {
 		$input = $request->all();
 
 		if (Auth::user()) {
@@ -30,6 +31,21 @@ class TrainingsController extends Controller {
 		$input['user_id'] = $user_id;
 		$input['confirmed'] = true;
 		Training::create($input); 
+
+		return redirect('trainings');
+	}
+
+	public function edit($id) {
+
+		$training = Training::findOrFail($id);
+
+		return view('trainings.edit', compact('training'));
+	}
+
+	public function update($id, TrainingRequest $request) {
+
+		$training = Training::findOrFail($id);
+		$training->update($request->all());
 
 		return redirect('trainings');
 	}
