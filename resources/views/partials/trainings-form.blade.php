@@ -14,5 +14,5 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::submit($submitText , null, ['class' => 'btn btn-primary form-control']) !!}
+			{!! Form::submit($submitText , ['class' => 'form-control btn btn-primary']) !!}
 		</div>

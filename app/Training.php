@@ -26,4 +26,8 @@ class Training extends Model {
 	public function user() {
 		return $this->belongsTo('App\User');
 	}
+
+	public function isTheOwner($user) {
+		return $this->user_id === $user->id;
+	}
 }

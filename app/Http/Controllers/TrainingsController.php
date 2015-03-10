@@ -10,6 +10,11 @@ use Request;
 
 class TrainingsController extends Controller {
 
+	public function __construct() {
+		$this->middleware('auth', ['except' => 'index']);
+		$this->middleware('trainingOwner', ['only' => array('edit','update', '')]);
+	}
+
 	public function index() {
 
 		$trainings = Training::latest()->confirmed()->get();
@@ -27,14 +32,16 @@ class TrainingsController extends Controller {
 		$training->confirmed = true;
 		Auth::user()->trainings()->save($training);
 
+		session()->flash('flash_message', 'Treening lisatud!');
+
 		return redirect('trainings');
 	}
 
 	public function edit($id) {
 
 		$training = Training::findOrFail($id);
-
 		return view('trainings.edit', compact('training'));
+
 	}
 
 	public function update($id, TrainingRequest $request) {
@@ -43,6 +50,7 @@ class TrainingsController extends Controller {
 		$training->update($request->all());
 
 		return redirect('trainings');
+
 	}
 
 }

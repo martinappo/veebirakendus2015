@@ -38,6 +38,9 @@ class Authenticate {
 			{
 				return response('Unauthorized.', 401);
 			}
+			else {
+				return redirect('trainings');
+			}
 		}
 
 		return $next($request);
