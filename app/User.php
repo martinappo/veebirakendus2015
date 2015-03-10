@@ -32,7 +32,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $hidden = ['password', 'remember_token'];
 
 	/**
-	 * A user can have many training(places)
+	 * A user can have many trainings
 	*/
 	public function trainings() {
 		return $this->hasMany('App\Training');
@@ -41,7 +41,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	/**
 	 * If is admin
 	*/
-
 	public function isAdmin() {
 		return $this->role == 'admin';
 	}

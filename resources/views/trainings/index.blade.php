@@ -11,6 +11,7 @@
 			<th>Kirjeldus</th>
 			<th>Aadress</th>
 			<th>Koordinaadid</th>
+			<th>Märksõnad</th>
 		</tr>
 
 		@foreach ($trainings as $training)
@@ -19,6 +20,11 @@
 				<td>{{ $training->description }}</td>
 				<td>{{ $training->aadress }}</td>
 				<td>{{ $training->coordinates }}</td>
+				<td>
+					@foreach ($training->tags as $tag)
+						{{ $tag->name . ' '}}
+					@endforeach
+				</td>
 			</tr>
 		@endforeach
 
