@@ -39,6 +39,7 @@ class Authenticate {
 				return response('Unauthorized.', 401);
 			}
 			else {
+				session()->flash('flash_message', 'Et seda tegevust teha peab sisse logima!');
 				return redirect('trainings');
 			}
 		}

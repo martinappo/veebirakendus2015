@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Requests\TrainingRequest;
 use App\Http\Controllers\Controller;
 use Auth;
+use DB;
 
 use Request;
 
@@ -15,6 +16,7 @@ class TrainingsController extends Controller {
 	 * Create a new trainings controller
 	 */
 	public function __construct() {
+
 		$this->middleware('auth', ['except' => 'index']);
 		$this->middleware('trainingOwner', ['only' => array('edit','update', '')]);
 	}
@@ -27,7 +29,6 @@ class TrainingsController extends Controller {
 	public function index() {
 
 		$trainings = Training::latest()->confirmed()->get();
-
 		return view('trainings.index', compact('trainings'));
 	}
 
@@ -118,6 +119,19 @@ class TrainingsController extends Controller {
 		$this->syncTags($training, $request->input('tag_list'));
 
 		return $training;
+	}
+
+	/**
+	 * Save a new tag to database
+	 * Returns true if success
+	 * 
+	 * @param  String
+	 * @return Boolean
+	 */
+	private function createTag($tagName) {
+
+		$created_at = date('Y-m-d H:i:s');
+		return DB::statement('INSERT INTO tags (name, created_at, updated_at) VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");');
 	}
 
 }

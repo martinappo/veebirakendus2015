@@ -15,9 +15,18 @@
 
 		<div class="form-group">
 			{!! Form::label('tag_list', 'Märksõnad') !!}
-			{!! Form::select('tag_list[]', $tags, null, ['class' => 'form-control', 'multiple']) !!}
+			{!! Form::select('tag_list[]', $tags, null, ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) !!}
 		</div>
 
 		<div class="form-group">
 			{!! Form::submit($submitText , ['class' => 'form-control btn btn-primary']) !!}
 		</div>
+
+		@section('footer')
+			<script>
+				$('#tag_list').select2({
+					placeholder: 'Vali märksõnad',
+					tags: true,
+				});
+			</script>
+		@endsection
