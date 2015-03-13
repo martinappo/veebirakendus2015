@@ -109,10 +109,15 @@ class TrainingsController extends Controller {
 
 		/*
 			If tag hasnt got a numerical value then it must be just added by user.
+			If the value is numerical then check if it's an id of a tag
 			Then we save it to database and sync it with id.
 		 */
 		foreach ($tags as $key => $tag){
 			if ( ! is_numeric($tag)) {
+				$tagId = $this->createTag($tag);
+				$tags[$key] = (string)$tagId;
+			}
+			elseif ( ! Tag::find($tag)) {
 				$tagId = $this->createTag($tag);
 				$tags[$key] = (string)$tagId;
 			}

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Validator;
-
+use App\Training;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -13,16 +13,7 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		Validator::extend('stringSelect', function($attribute, $value, $parameters)
-		{
-			foreach ($value as $item) {
-				if (is_numeric($item)) {
-					return false;
-				}
-			}
-
-			return true;
-		});
+		//
 	}
 
 	/**
