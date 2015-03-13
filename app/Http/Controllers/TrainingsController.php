@@ -93,16 +93,33 @@ class TrainingsController extends Controller {
 		return redirect('trainings');
 	}
 
+	/*
+	================================================== Private functions start from here ====================================================
+	 */
+
 	/**
+	 * Determine if user has inserted a new tag
 	 * Sync up tags in database
 	 * 
 	 * @param  Training 
 	 * @param  array tags
-	 * @return
+	 * @return void
 	 */
 	private function syncTags(Training $training, array $tags) {
 
+		/*
+			If tag hasnt got a numerical value then it must be just added by user.
+			Then we save it to database and sync it with id.
+		 */
+		foreach ($tags as $key => $tag){
+			if ( ! is_numeric($tag)) {
+				$tagId = $this->createTag($tag);
+				$tags[$key] = (string)$tagId;
+			}
+		}
+
 		$training->tags()->sync($tags);
+		return;
 	}
 
 	/**
@@ -116,6 +133,7 @@ class TrainingsController extends Controller {
 		$training = new Training($request->all());
 		$training->confirmed = true;
 		Auth::user()->trainings()->save($training);
+
 		$this->syncTags($training, $request->input('tag_list'));
 
 		return $training;
@@ -123,15 +141,18 @@ class TrainingsController extends Controller {
 
 	/**
 	 * Save a new tag to database
-	 * Returns true if success
+	 * Returns the id of added tag
 	 * 
 	 * @param  String
-	 * @return Boolean
+	 * @return int
 	 */
 	private function createTag($tagName) {
 
 		$created_at = date('Y-m-d H:i:s');
-		return DB::statement('INSERT INTO tags (name, created_at, updated_at) VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");');
+		DB::statement('INSERT INTO tags (name, created_at, updated_at) VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");');
+		$id = DB::select('SELECT DISTINCT id FROM tags WHERE name = "'.$tagName.'"')[0]->id;
+
+		return $id;
 	}
 
 }

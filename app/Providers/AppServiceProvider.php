@@ -1,6 +1,8 @@
 <?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Validator;
+
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -11,7 +13,16 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		Validator::extend('stringSelect', function($attribute, $value, $parameters)
+		{
+			foreach ($value as $item) {
+				if (is_numeric($item)) {
+					return false;
+				}
+			}
+
+			return true;
+		});
 	}
 
 	/**
@@ -29,6 +40,7 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
 		);
+
 	}
 
 }

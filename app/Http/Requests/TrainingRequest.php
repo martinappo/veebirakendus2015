@@ -23,8 +23,20 @@ class TrainingRequest extends Request {
 	{
 		return [
 			'title' => 'required|min:3',
-			'aadress' => 'required'
+			'aadress' => 'required',
+			'tag_list' => 'stringSelect',
 		];
+	}
+
+	public function messages () 
+	{
+		$array = array(
+			'title.required' => 'Pealkirja väli on kohustuslik ning peab olema vähemalt 3 märki.',
+			'aadress.required' => 'Aadressi sisestamine on kohustuslik.',
+			'tag_list.string_select' => 'Märksõna ei tohi koosneda ainult numbritest',
+		);
+
+		return $array;
 	}
 
 }
