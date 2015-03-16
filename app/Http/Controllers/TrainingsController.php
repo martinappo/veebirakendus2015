@@ -85,7 +85,9 @@ class TrainingsController extends Controller {
 	public function update($id, TrainingRequest $request) {
 
 		$training = Training::findOrFail($id);
+		$training->confirmed = false;
 		$training->update($request->all());
+
 		$this->syncTags($training, $request->input('tag_list'));
 
 		session()->flash('flash_message', 'Treening uuendatud!');
@@ -136,7 +138,6 @@ class TrainingsController extends Controller {
 	private function createTraining(TrainingRequest $request) {
 
 		$training = new Training($request->all());
-		$training->confirmed = true;
 		Auth::user()->trainings()->save($training);
 
 		$this->syncTags($training, $request->input('tag_list'));
