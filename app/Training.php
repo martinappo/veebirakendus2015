@@ -20,6 +20,10 @@ class Training extends Model {
 		$query->where('confirmed', '=', true);
 	}
 
+	public function scopeNotConfirmed($query) {
+		$query->where('confirmed', '=', false);
+	}
+
 	/**
 	 * A training is owned by a user.
 	 * @return \Illuminate\Database\Eloquent\Relations\BlongsTo
