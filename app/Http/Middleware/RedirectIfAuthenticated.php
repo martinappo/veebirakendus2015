@@ -35,6 +35,7 @@ class RedirectIfAuthenticated {
 	{
 		if ($this->auth->check())
 		{
+			session()->flash('flash_message', 'Oled juba sisse logitud!');
 			return new RedirectResponse(url('/'));
 		}
 

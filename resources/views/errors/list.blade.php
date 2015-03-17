@@ -5,3 +5,4 @@
 		</li>
 	@endforeach
 @endif
+<div id="ajaxError" class="alert alert-danger" style="display:none"></div>

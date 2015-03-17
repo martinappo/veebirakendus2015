@@ -32,19 +32,21 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
+
 		if ($this->auth->guest())
 		{
 			if ($request->ajax())
 			{
-				return response('Unauthorized.', 401);
+				return response('Unauthorized.');
 			}
-			else {
-				session()->flash('flash_message', 'Et seda tegevust teha peab sisse logima!');
+			else
+			{
 				return redirect('trainings');
 			}
 		}
 
 		return $next($request);
 	}
+
 
 }

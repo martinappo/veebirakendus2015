@@ -18,7 +18,7 @@ class TrainingsController extends Controller {
 	public function __construct() {
 
 		$this->middleware('auth', ['except' => 'index']);
-		$this->middleware('trainingOwner', ['only' => array('edit','update', '')]);
+		$this->middleware('trainingOwner', ['only' => array('edit','update')]);
 	}
 
 	/**

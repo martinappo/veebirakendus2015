@@ -24,5 +24,7 @@ elixir(function(mix) {
 		'libs/jquery.min.js',
 		'libs/bootstrap.min.js',
 		'libs/select2.min.js',
+		'libs/bootbox.min.js',
+		'loginBox.js',
 	])
 });

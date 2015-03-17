@@ -17,7 +17,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				@if (Auth::guest())
-					<li><a href="/auth/login">Login</a></li>
+					<li><a href="/auth/login" class="open-in-modal" title="Logi sisse">Login</a></li>
 					<li><a href="/auth/register">Register</a></li>
 				@else
 					<li class="dropdown">
