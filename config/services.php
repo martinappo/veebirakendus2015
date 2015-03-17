@@ -37,13 +37,13 @@ return [
 	'facebook' => [
 		'client_id' => '1555428931397998',
 		'client_secret' => '14fe549773d1750eaa8167f361d0e69e',
-		'redirect' => 'http://crisp.leiatrenn.ee/auth/socialcallback/facebook',
+		'redirect' => 'http://leiatrenn.crisp.ee/auth/socialcallback/facebook',
 	],
 
 	'google' => [
 		'client_id' => '33123042577-k5eg62169njc3v7l2lvqvg6p8pglfs8q.apps.googleusercontent.com',
 		'client_secret' => 'pCDiOgpbLy78PSGn800BsRU1',
-		'redirect' => 'http://crisp.leiatrenn.ee/auth/socialcallback/google',
+		'redirect' => 'http://leiatrenn.crisp.ee/auth/socialcallback/google',
 	],
 
 ];
