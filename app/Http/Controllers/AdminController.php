@@ -95,7 +95,20 @@ class AdminController extends Controller {
 	public function updateUser($id)
 	{
 		$user = User::findOrFail($id);
-		$user->update(Request::all());
-		return view('admin.user', compact('user'));
+		$user->role = Request::input('role');
+		$user->update();
+		return redirect()->back();
+	}
+
+	/**
+	 * Delete the user from database
+	 * @param  int $id [Id of the user]
+	 * @return Response
+	 */
+	public function destroyUser($id)
+	{
+		$user = User::findOrFail($id);
+		$user->delete();
+		return redirect('admin/users');
 	}
 }
