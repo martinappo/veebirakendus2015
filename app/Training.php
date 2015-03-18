@@ -16,10 +16,20 @@ class Training extends Model {
 		'confirmed'
 	];
 
+	/**
+	 * Get trainings that are confrimed
+	 * @param $query
+	 * @return void
+	 */
 	public function scopeConfirmed($query) {
 		$query->where('confirmed', '=', true);
 	}
 
+	/**
+	 * Get trainings that are not confirmed
+	 * @param $query
+	 * @return void
+	 */
 	public function scopeNotConfirmed($query) {
 		$query->where('confirmed', '=', false);
 	}

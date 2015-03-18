@@ -19,7 +19,13 @@
 	<![endif]-->
 </head>
 <body>
-	@include('partials.navbar')
+	<section id="mainHeader" class="container-fluid">
+		<div class="row">
+			@include('partials.navbar')
+			@yield('header')
+		</div>
+	</header>
+
 	<div class="container">
 		@include('partials.flash-message')
 		@yield('content')

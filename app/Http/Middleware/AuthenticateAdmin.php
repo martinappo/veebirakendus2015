@@ -6,6 +6,8 @@ class AuthenticateAdmin {
 
 	/**
 	 * Handle an incoming request.
+	 * Middleware for admin views.
+	 * Only admin can access, others will be redirected to home route.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next

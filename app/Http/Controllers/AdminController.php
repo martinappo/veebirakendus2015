@@ -31,7 +31,7 @@ class AdminController extends Controller {
 	}
 
 	/**
-	 * Show the application dashboard to the user.
+	 * Show the application dashboard to admin.
 	 *
 	 * @return Response
 	 */
@@ -42,31 +42,57 @@ class AdminController extends Controller {
 		return view('admin.home', compact('users', 'trainings'));
 	}
 
+	/**
+	 * Show the trainings view to admin.
+	 * 
+	 * @return Response
+	 */
 	public function trainings()
 	{
 		$trainings = Training::latest()->get();
 		return view('admin.trainings', compact('trainings'));
 	}
 
-	public  function editTraining($id)
+	/**
+	 * Show edit training view to admin.
+	 * 
+	 * @param  int $id [id of training]
+	 * @return Response
+	 */
+	public function editTraining($id)
 	{
 		$training = Training::findOrFail($id);
 		return view('admin.training', compact('training'));
 	}
 
-	public  function users()
+	/**
+	 * Show users list to admin.
+	 * @return Response
+	 */
+	public function users()
 	{
 		$users = User::latest()->get();
 		return view('admin.users', compact('users'));
 	}
 
-	public  function editUser($id)
+	/**
+	 * Show single user edit page to admin.
+	 * @param  int $id [Id of the user]
+	 * @return Response
+	 */
+	public function editUser($id)
 	{
 		$user = User::findOrFail($id);
 		return view('admin.user', compact('user'));
 	}
 
-	public  function updateUser($id)
+	/**
+	 * Update the user
+	 * Admin can change only user role
+	 * @param  int $id [Id of the user]
+	 * @return Response
+	 */
+	public function updateUser($id)
 	{
 		$user = User::findOrFail($id);
 		$user->update(Request::all());

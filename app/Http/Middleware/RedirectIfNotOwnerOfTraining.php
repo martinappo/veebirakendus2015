@@ -7,6 +7,8 @@ class RedirectIfNotOwnerOfTraining {
 
 	/**
 	 * Handle an incoming request.
+	 * If user is not the owner of the training then
+	 * he/she will be redirected.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
