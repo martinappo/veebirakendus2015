@@ -2,6 +2,9 @@
 
 use App\User;
 use App\Training;
+use App\Http\Requests;
+use Request;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller {
 
@@ -45,9 +48,28 @@ class AdminController extends Controller {
 		return view('admin.trainings', compact('trainings'));
 	}
 
-	public  function edit($id)
+	public  function editTraining($id)
 	{
 		$training = Training::findOrFail($id);
 		return view('admin.training', compact('training'));
+	}
+
+	public  function users()
+	{
+		$users = User::latest()->get();
+		return view('admin.users', compact('users'));
+	}
+
+	public  function editUser($id)
+	{
+		$user = User::findOrFail($id);
+		return view('admin.user', compact('user'));
+	}
+
+	public  function updateUser($id)
+	{
+		$user = User::findOrFail($id);
+		$user->update(Request::all());
+		return view('admin.user', compact('user'));
 	}
 }

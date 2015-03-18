@@ -14,6 +14,9 @@
 						</li>
 					@endforeach
 				</div>
+				<div class="panel-footer">
+					<a href="{{ url('admin/users') }}" class="btn btn-default">Kõik kasutajad</a>
+				</div>
 			</div>
 		</div>
 
