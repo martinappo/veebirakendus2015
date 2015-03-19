@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSocialIdsAgainWithUnsigned extends Migration {
+class AddSocialIdsWithVarchar extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,8 +14,8 @@ class AddSocialIdsAgainWithUnsigned extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
-			$table->bigInteger('fb_id')->unsigned();
-			$table->bigInteger('g_id')->unsigned();
+			$table->string('fb_id', 100);
+			$table->string('g_id', 100);
 		});
 	}
 
