@@ -5,3 +5,4 @@ pw.txt
 *.sublime-project
 *.sublime-workspace
 public/img/temp/
+composer.lock

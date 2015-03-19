@@ -43,6 +43,7 @@
 					<th>Google</th>
 					<td>
 						@if ($user->g_id)
+							<span class="glyphicon glyphicon-ok"></span>
 							Seotud googlega
 						@else
 							<a class="btn btn-default" href="/auth/social/google">Seo kasutaja</a>
