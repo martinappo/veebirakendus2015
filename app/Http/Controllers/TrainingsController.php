@@ -89,7 +89,14 @@ class TrainingsController extends Controller {
 		$training->confirmed = false;
 		$training->update($request->all());
 
-		$this->syncTags($training, $request->input('tag_list'));
+		$tags = array();
+
+		if ($request->input('tag_list'))
+		{
+			$tags = $request->input('tag_list');
+		}
+
+		$this->syncTags($training, $tags);
 
 		session()->flash('flash_message', 'Treening uuendatud!');
 
@@ -157,7 +164,14 @@ class TrainingsController extends Controller {
 		$training = new Training($request->all());
 		Auth::user()->trainings()->save($training);
 
-		$this->syncTags($training, $request->input('tag_list'));
+		$tags = array();
+
+		if ($request->input('tag_list'))
+		{
+			$tags = $request->input('tag_list');
+		}
+
+		$this->syncTags($training, $tags);
 
 		return $training;
 	}
