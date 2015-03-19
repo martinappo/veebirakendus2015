@@ -15,3 +15,11 @@
 nav.navbar {
 	margin-bottom: 0px;
 }
+
+#mainContainer {
+	padding-top: 20px;
+}
+
+.alert-flash {
+	margin-top: 20px;
+}

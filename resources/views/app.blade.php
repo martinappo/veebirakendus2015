@@ -29,7 +29,7 @@
 		</div>
 	</header>
 
-	<div class="container">
+	<div class="container" id="mainContainer">
 		@yield('content')
 		<script src="/js/all.js"></script>
 	</div>
