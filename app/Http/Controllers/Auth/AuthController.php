@@ -38,7 +38,7 @@ class AuthController extends Controller {
 		$this->auth = $auth;
 		$this->registrar = $registrar;
 
-		$this->middleware('guest', ['except' => 'getLogout']);
+		$this->middleware('guest', ['only' => 'authenticate']);
 	}
 
 	/**
@@ -87,8 +87,8 @@ class AuthController extends Controller {
 		else
 		{
 			$this->registerWith($provider, $user);
-			session()->flash('flash_message', 'Teie kasutaja on edukalt loodud!');
-			return redirect('home');
+			session()->flash('flash_message', 'Teie kasutaja on edukalt seotud!');
+			return redirect('profile');
 		}
 
 	}

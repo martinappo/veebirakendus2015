@@ -15,8 +15,8 @@ class TrainingsController extends Controller {
 	/**
 	 * Create a new trainings controller
 	 */
-	public function __construct() {
-
+	public function __construct()
+	{
 		$this->middleware('auth', ['except' => 'index']);
 		$this->middleware('trainingOwner', ['only' => array('edit','update')]);
 	}
@@ -26,8 +26,8 @@ class TrainingsController extends Controller {
 	 * 
 	 * @return Response
 	 */
-	public function index() {
-
+	public function index()
+	{
 		$trainings = Training::latest()->confirmed()->get();
 		return view('trainings.index', compact('trainings'));
 	}
@@ -37,7 +37,8 @@ class TrainingsController extends Controller {
 	 * 
 	 * @return Response
 	 */
-	public function create() {
+	public function create()
+	{
 		$tags = Tag::lists('name', 'id');
 
 		return view('trainings.create', compact('tags'));
@@ -50,8 +51,8 @@ class TrainingsController extends Controller {
 	 * @param  TrainingRequest
 	 * @return Response
 	 */
-	public function store(TrainingRequest $request) {
-
+	public function store(TrainingRequest $request)
+	{
 		$this->createTraining($request);
 
 		session()->flash('flash_message', 'Treening lisatud!');
@@ -65,8 +66,8 @@ class TrainingsController extends Controller {
 	 * @param  int
 	 * @return Response
 	 */
-	public function edit($id) {
-
+	public function edit($id)
+	{
 		$tags = Tag::lists('name', 'id');
 
 		$training = Training::findOrFail($id);
@@ -82,8 +83,8 @@ class TrainingsController extends Controller {
 	 * @param  TrainingRequest
 	 * @return Response
 	 */
-	public function update($id, TrainingRequest $request) {
-
+	public function update($id, TrainingRequest $request)
+	{
 		$training = Training::findOrFail($id);
 		$training->confirmed = false;
 		$training->update($request->all());
@@ -107,10 +108,10 @@ class TrainingsController extends Controller {
 	 * @param  array tags
 	 * @return void
 	 */
-	private function syncTags(Training $training, array $tags) {
-
+	private function syncTags(Training $training, array $tags)
+	{
 		/*
-			If tag hasnt got a numerical value then it must be just added by user.
+			If tag hasn't got a numerical value then it must be just added by user.
 			If the value is numerical then check if it's an id of a tag
 			Then we save it to database and sync it with id.
 		 */
@@ -135,8 +136,8 @@ class TrainingsController extends Controller {
 	 * @param  TrainingRequest $request
 	 * @return Training
 	 */
-	private function createTraining(TrainingRequest $request) {
-
+	private function createTraining(TrainingRequest $request)
+	{
 		$training = new Training($request->all());
 		Auth::user()->trainings()->save($training);
 
@@ -152,8 +153,8 @@ class TrainingsController extends Controller {
 	 * @param  String
 	 * @return int
 	 */
-	private function createTag($tagName) {
-
+	private function createTag($tagName)
+	{
 		$created_at = date('Y-m-d H:i:s');
 		DB::statement('INSERT INTO tags (name, created_at, updated_at) VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");');
 		$id = DB::select('SELECT DISTINCT id FROM tags WHERE name = "'.$tagName.'"')[0]->id;
