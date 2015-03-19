@@ -33,7 +33,8 @@ class AuthController extends Controller {
 	 * @param  \Illuminate\Contracts\Auth\Registrar  $registrar
 	 * @return void
 	 */
-	public function __construct(Guard $auth, Registrar $registrar) {
+	public function __construct(Guard $auth, Registrar $registrar)
+	{
 		$this->auth = $auth;
 		$this->registrar = $registrar;
 
@@ -75,7 +76,8 @@ class AuthController extends Controller {
 	 */
 	public function handleProviderCallback($provider)
 	{
-		$socialId = Socialize::with($provider)->user()->getId();
+		$user = Socialize::with($provider)->user();
+		$socialId = $user->getId();
 
 		if ($this->authenticateWith($provider, $socialId))
 		{
@@ -84,7 +86,8 @@ class AuthController extends Controller {
 		}
 		else
 		{
-			session()->flash('flash_message', 'Puudub vastava kontoga kasutaja.');
+			$this->registerWith($provider, $user);
+			session()->flash('flash_message', 'Teie kasutaja on edukalt loodud!');
 			return redirect('home');
 		}
 
@@ -122,6 +125,35 @@ class AuthController extends Controller {
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Registering user with social provider
+	 * 
+	 * @param  String $provider [Facebook or Google]
+	 * @param  $user [User instance from fb or g]
+	 * @return void
+	 */
+	private function registerWith($provider, $user)
+	{
+		$socialIdVar = '';
+		switch ($provider)
+		{
+			case 'facebook':
+				$socialIdVar = 'fb_id';
+				break;
+			case 'google':
+				$socialIdVar = 'g_id';
+				break;
+		}
+
+		$newUser = User::firstOrNew(['email' => $user->getEmail()]);
+		$newUser->$socialIdVar = $user->getId();
+		$newUser->name = $user->getName();
+		$newUser->email = $user->getEmail();
+		$newUser->save();
+		Auth::loginUsingId($newUser->id);
+		return;
 	}
 
 

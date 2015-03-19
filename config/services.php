@@ -40,6 +40,18 @@ return [
 		'redirect' => 'http://leiatrenn.crisp.ee/auth/socialcallback/facebook',
 	],
 
+	/**
+	 * For local testing
+	 *
+	 */
+	 /*
+	'facebook' => [
+		'client_id' => '1556726087934949',
+		'client_secret' => '7cffb299c63b84e160d0913ef2bcaa85',
+		'redirect' => 'http://leiatrenn.dev/auth/socialcallback/facebook',
+	],
+	*/
+
 	'google' => [
 		'client_id' => '33123042577-k5eg62169njc3v7l2lvqvg6p8pglfs8q.apps.googleusercontent.com',
 		'client_secret' => 'pCDiOgpbLy78PSGn800BsRU1',

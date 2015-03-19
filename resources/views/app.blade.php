@@ -22,12 +22,14 @@
 	<section id="mainHeader" class="container-fluid">
 		<div class="row">
 			@include('partials.navbar')
+			<div class="container">
+				@include('partials.flash-message')
+			</div>
 			@yield('header')
 		</div>
 	</header>
 
 	<div class="container">
-		@include('partials.flash-message')
 		@yield('content')
 		<script src="/js/all.js"></script>
 	</div>
