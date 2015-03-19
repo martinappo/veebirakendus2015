@@ -23,7 +23,8 @@ class UserController extends Controller {
 	public function index()
 	{
 		$user = Auth::user();
-		return view('user.home', compact('user'));
+		$trainings = $user->trainings()->get();
+		return view('user.home', compact('user', 'trainings'));
 	}
 
 	/**

@@ -57,7 +57,7 @@ class TrainingsController extends Controller {
 
 		session()->flash('flash_message', 'Treening lisatud!');
 
-		return redirect('trainings');
+		return redirect('profile');
 	}
 
 	/**
@@ -93,7 +93,23 @@ class TrainingsController extends Controller {
 
 		session()->flash('flash_message', 'Treening uuendatud!');
 
-		return redirect('trainings');
+		return redirect('profile');
+	}
+
+	/**
+	 * Delete the training
+	 * 
+	 * @param  int
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$training = Training::findOrFail($id);
+		$training->delete();
+
+		session()->flash('flash_message', 'Treening kustutatud!');
+
+		return redirect('profile');
 	}
 
 	/*

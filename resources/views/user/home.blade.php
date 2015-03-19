@@ -61,4 +61,59 @@
 	</div>
 </div>
 
+<div class="col-md-12">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left">Lisatud treeningud</h3>
+			<a href="{{ url('trainings/create' )}}" class="btn btn-default pull-right">Lisa treening</a>
+			<div class="clearfix"></div>
+		</div>
+			@foreach($trainings as $training)
+			<div class="panel-body">
+				<div class="panel panel-default">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>{{ $training->title }}</th>
+								<th>
+									{!! Form::open(['method' => 'DELETE', 'url' => url('trainings', array($training->id) )]) !!}
+										<div class="btn-group pull-right" role="group" aria-label="...">
+											<a href="{{ url('trainings', array($training->id, 'edit') )}}" class="btn btn-default">Muuda</a>
+											<button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+										</div>
+									{!! Form::close() !!}
+								</th>
+							</tr>
+						</thead>
+						<tr>
+							<th>Aadress</th>
+							<td>{{ $training->aadress }}</td>
+						</tr>
+						<tr>
+							<th>Märksõnad</th>
+							<td>
+								@foreach ($training->tags as $tag)
+									<div class="badge">
+										{{ $tag->name }}
+									</div>
+								@endforeach
+							</td>
+						</tr>
+						<tr>
+							<th>Kinnitatud</th>
+							<td>
+								@if ($training->confirmed)
+									<span class="glyphicon glyphicon-ok"></span>
+								@else
+									<span class="glyphicon glyphicon-remove"></span>
+								@endif
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			@endforeach
+	</div>
+</div>
+
 @endsection
