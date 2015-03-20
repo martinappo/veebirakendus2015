@@ -6,7 +6,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Leiatrenn</title>
 
-	<link href="/css/all.css" rel="stylesheet">
+	<!-- <link href="/css/all.css" rel="stylesheet"> -->
+
+	<link href="/temp/css/app.css" rel="stylesheet">
+	<link href="/temp/css/custom.css" rel="stylesheet">
+	<link href="/temp/css/libs/select2.min.css" rel="stylesheet">
+	<script src="/temp/js/libs/jquery.min.js"></script>
+	<script src="/temp/js/libs/bootstrap.min.js"></script>
+	<script src="/temp/js/libs/bootbox.min.js"></script>
+	<script src="/temp/js/libs/select2.min.js"></script>
+	<script src="/temp/js/loginbox.js"></script>
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -31,7 +40,7 @@
 
 	<div class="container" id="mainContainer">
 		@yield('content')
-		<script src="/js/all.js"></script>
+		<!-- <script src="/js/all.js"></script> -->
 	</div>
 	@yield('footer')
 </body>

@@ -186,8 +186,15 @@ class TrainingsController extends Controller {
 	private function createTag($tagName)
 	{
 		$created_at = date('Y-m-d H:i:s');
-		DB::statement('INSERT INTO tags (name, created_at, updated_at) VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");');
-		$id = DB::select('SELECT DISTINCT id FROM tags WHERE name = "'.$tagName.'"')[0]->id;
+		DB::statement('
+				INSERT INTO tags (name, created_at, updated_at) 
+				VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");
+			');
+		$id = DB::select('
+				SELECT DISTINCT id 
+				FROM tags 
+				WHERE name = "'.$tagName.'"
+			')[0]->id;
 
 		return $id;
 	}

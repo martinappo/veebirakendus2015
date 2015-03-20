@@ -1,0 +1,25 @@
+.home-map {
+	min-height: 500px;
+	background-image: url('../img/stretch.jpg');
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: center center;
+}
+
+.map-container {
+	padding-top: 100px;
+	padding-bottom: 100px;
+	opacity: 0.95;
+}
+
+nav.navbar {
+	margin-bottom: 0px;
+}
+
+#mainContainer {
+	padding-top: 20px;
+}
+
+.alert-flash {
+	margin-top: 20px;
+}
