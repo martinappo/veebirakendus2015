@@ -5,6 +5,7 @@ use App\Training;
 use App\Http\Requests;
 use Request;
 use App\Http\Controllers\Controller;
+use DB;
 
 class AdminController extends Controller {
 
@@ -38,7 +39,7 @@ class AdminController extends Controller {
 	 */
 	public function trainings()
 	{
-		$trainings = Training::latest()->get();
+		$trainings = $this->getTrainingsWithUsers();
 		return view('admin.trainings', compact('trainings'));
 	}
 
@@ -50,7 +51,7 @@ class AdminController extends Controller {
 	 */
 	public function editTraining($id)
 	{
-		$training = Training::findOrFail($id);
+		$training = Training::find($id);
 		return view('admin.training', compact('training'));
 	}
 
@@ -60,7 +61,8 @@ class AdminController extends Controller {
 	 */
 	public function users()
 	{
-		$users = User::latest()->get();
+		//$users = User::latest()->get();
+		$users = $this->getUsersWithNrOfTrainigs();
 		return view('admin.users', compact('users'));
 	}
 
@@ -101,5 +103,54 @@ class AdminController extends Controller {
 		$user->delete();
 		session()->flash('flash_message', 'Kasutaja kustutatud!');
 		return redirect('admin/users');
+	}
+
+	/* ======================================== Private functions =================================== */
+
+	/**
+	 * Calculates the number of trainings the user have create
+	 * @return array [Array of users with number of trainings]
+	 */
+	private function getUsersWithNrOfTrainigs() {
+		$usersWithTrainings = array();
+		$usersWithTrainings = DB::select(
+			'SELECT
+				users.id,
+				users.name,
+				users.email,
+				users.fb_id,
+				users.g_id,
+				users.role,
+				COUNT(trainings.id) as training_count
+			FROM trainings
+			LEFT JOIN users
+			ON trainings.user_id=users.id
+			GROUP BY id
+		');
+
+		return $usersWithTrainings;
+	}
+
+	/**
+	 * Joins user trainings table with user
+	 * @return array [Trainings with users]
+	 */
+	private function getTrainingsWithUsers() {
+		$trainingsWithUser = array();
+		$trainingsWithUser = DB::select(
+			'SELECT 
+				trainings.id as id, 
+				trainings.title,
+				trainings.confirmed,
+				trainings.description,
+				trainings.aadress,
+				users.id as owner_id, 
+				users.name as owner
+			FROM users
+			INNER JOIN trainings
+			ON users.id=trainings.user_id
+		');
+
+		return $trainingsWithUser;
 	}
 }

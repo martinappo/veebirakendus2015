@@ -8,8 +8,9 @@
 		<tr>
 			<th>Nimi</th>
 			<th>E-mail</th>
+			<th>Roll</th>
+			<th>Treeninguid</th>
 		</tr>
-
 		@foreach ($users as $user)
 			<tr>
 				<td>
@@ -18,6 +19,8 @@
 					</a>
 				</td>
 				<td>{{ $user->email }}</td>
+				<td>{{ $user->role }}</td>
+				<td>{{ $user->training_count }}</td>
 			</tr>
 		@endforeach
 

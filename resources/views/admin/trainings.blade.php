@@ -11,9 +11,8 @@
 			<th>Kirjeldus</th>
 			<th>Aadress</th>
 			<th>Kinnitatud</th>
-			<th>Märksõnad</th>
+			<th>Omanik</th>
 		</tr>
-
 		@foreach ($trainings as $training)
 			<tr>
 				<td>
@@ -31,9 +30,7 @@
 					@endif
 				</td>
 				<td>
-					@foreach ($training->tags as $tag)
-						{{ $tag->name . ' '}}
-					@endforeach
+					{{ $training->owner }}
 				</td>
 			</tr>
 		@endforeach
