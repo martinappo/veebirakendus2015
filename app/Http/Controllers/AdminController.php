@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Training;
+use App\Tag;
 use App\Http\Requests;
 use Request;
 use App\Http\Controllers\Controller;
@@ -40,7 +41,8 @@ class AdminController extends Controller {
 	public function trainings()
 	{
 		$trainings = $this->getTrainingsWithUsers();
-		return view('admin.trainings', compact('trainings'));
+		$tags = Tag::latest()->get();
+		return view('admin.trainings', compact('trainings', 'tags'));
 	}
 
 	/**
@@ -103,6 +105,19 @@ class AdminController extends Controller {
 		$user->delete();
 		session()->flash('flash_message', 'Kasutaja kustutatud!');
 		return redirect('admin/users');
+	}
+
+	/**
+	 * Delete the tag from database
+	 * @param  int $id [Id of the tag]
+	 * @return Response
+	 */
+	public function destroyTag($id)
+	{
+		$tag = Tag::findOrFail($id);
+		$tag->delete();
+		session()->flash('flash_message', 'Märksõna kustutatud!');
+		return redirect('admin/trainings');
 	}
 
 	/* ======================================== Private functions =================================== */

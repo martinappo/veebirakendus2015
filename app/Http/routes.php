@@ -31,6 +31,7 @@ Route::get('/admin/users','AdminController@users');
 Route::get('/admin/users/{id}/edit','AdminController@editUser');
 Route::patch('/admin/users/{id}','AdminController@updateUser');
 Route::delete('/admin/users/{id}','AdminController@destroyUser');
+Route::delete('/admin/tags/{id}','AdminController@destroyTag');
 
 /*
 User routes
