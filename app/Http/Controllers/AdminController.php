@@ -208,7 +208,7 @@ class AdminController extends Controller {
 				users.role,
 				COUNT(trainings.id) as training_count
 			FROM trainings
-			LEFT JOIN users
+			RIGHT JOIN users
 			ON trainings.user_id=users.id
 			GROUP BY id
 		');
