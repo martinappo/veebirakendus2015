@@ -4,6 +4,7 @@ use App\User;
 use App\Training;
 use App\Tag;
 use App\Http\Requests;
+use App\Http\Requests\TrainingRequest;
 use Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -53,8 +54,54 @@ class AdminController extends Controller {
 	 */
 	public function editTraining($id)
 	{
-		$training = Training::find($id);
-		return view('admin.training', compact('training'));
+		$tags = Tag::lists('name', 'id');
+
+		$training = Training::findOrFail($id);
+		return view('admin.training', compact('training', 'tags'));
+	}
+
+	/**
+	 * Update edited training for admin,
+	 * set flash message and
+	 * redirect to trainings
+	 * 
+	 * @param  int
+	 * @param  TrainingRequest
+	 * @return Response
+	 */
+	public function updateTraining($id, TrainingRequest $request)
+	{
+		$training = Training::findOrFail($id);
+		$training->updateTraining($request->all());
+
+		$tags = array();
+
+		if ($request->input('tag_list'))
+		{
+			$tags = $request->input('tag_list');
+		}
+
+		$this->syncTags($training, $tags);
+
+		session()->flash('flash_message', 'Treening uuendatud!');
+
+		return redirect('admin/trainings');
+	}
+
+	/**
+	 * Delete the training
+	 * 
+	 * @param  int
+	 * @return Response
+	 */
+	public function destroyTraining($id)
+	{
+		$training = Training::findOrFail($id);
+		$training->delete();
+
+		session()->flash('flash_message', 'Treening kustutatud!');
+
+		return redirect('admin/trainings');
 	}
 
 	/**
@@ -105,6 +152,29 @@ class AdminController extends Controller {
 		$user->delete();
 		session()->flash('flash_message', 'Kasutaja kustutatud!');
 		return redirect('admin/users');
+	}
+
+	/**
+	 * Save a new tag to database
+	 * Returns the id of added tag
+	 * 
+	 * @param  String
+	 * @return int
+	 */
+	private function createTag($tagName)
+	{
+		$created_at = date('Y-m-d H:i:s');
+		DB::statement('
+				INSERT INTO tags (name, created_at, updated_at) 
+				VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");
+			');
+		$id = DB::select('
+				SELECT DISTINCT id 
+				FROM tags 
+				WHERE name = "'.$tagName.'"
+			')[0]->id;
+
+		return $id;
 	}
 
 	/**
