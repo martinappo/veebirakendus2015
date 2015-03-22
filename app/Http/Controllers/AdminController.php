@@ -138,7 +138,7 @@ class AdminController extends Controller {
 		$user->role = Request::input('role');
 		$user->update();
 		session()->flash('flash_message', 'Kasutaja andmed uuendatud!');
-		return redirect()->back()->back();
+		return redirect('admin/users');
 	}
 
 	/**
