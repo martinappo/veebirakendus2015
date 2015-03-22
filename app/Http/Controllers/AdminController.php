@@ -72,7 +72,7 @@ class AdminController extends Controller {
 	public function updateTraining($id, TrainingRequest $request)
 	{
 		$training = Training::findOrFail($id);
-		$training->updateTraining($request->all());
+		$training->update($request->all());
 
 		$tags = array();
 
@@ -155,29 +155,6 @@ class AdminController extends Controller {
 	}
 
 	/**
-	 * Save a new tag to database
-	 * Returns the id of added tag
-	 * 
-	 * @param  String
-	 * @return int
-	 */
-	private function createTag($tagName)
-	{
-		$created_at = date('Y-m-d H:i:s');
-		DB::statement('
-				INSERT INTO tags (name, created_at, updated_at) 
-				VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");
-			');
-		$id = DB::select('
-				SELECT DISTINCT id 
-				FROM tags 
-				WHERE name = "'.$tagName.'"
-			')[0]->id;
-
-		return $id;
-	}
-
-	/**
 	 * Delete the tag from database
 	 * @param  int $id [Id of the tag]
 	 * @return Response
@@ -237,5 +214,57 @@ class AdminController extends Controller {
 		');
 
 		return $trainingsWithUser;
+	}
+
+	/**
+	 * Determine if user has inserted a new tag
+	 * Sync up tags in database
+	 * 
+	 * @param  Training 
+	 * @param  array tags
+	 * @return void
+	 */
+	private function syncTags(Training $training, array $tags) 	{
+		/*
+			If tag hasn't got a numerical value then it must be just added by user.
+			If the value is numerical then check if it's an id of a tag
+			Then we save it to database and sync it with id.
+		 */
+		foreach ($tags as $key => $tag){
+			if ( ! is_numeric($tag)) {
+				$tagId = $this->createTag($tag);
+				$tags[$key] = (string)$tagId;
+			}
+			elseif ( ! Tag::find($tag)) {
+				$tagId = $this->createTag($tag);
+				$tags[$key] = (string)$tagId;
+			}
+		}
+
+		$training->tags()->sync($tags);
+		return;
+	}
+
+	/**
+	 * Save a new tag to database
+	 * Returns the id of added tag
+	 * 
+	 * @param  String
+	 * @return int
+	 */
+	private function createTag($tagName)
+	{
+		$created_at = date('Y-m-d H:i:s');
+		DB::statement('
+				INSERT INTO tags (name, created_at, updated_at) 
+				VALUES ("'.$tagName.'", "'.$created_at.'", "'.$created_at.'");
+			');
+		$id = DB::select('
+				SELECT DISTINCT id 
+				FROM tags 
+				WHERE name = "'.$tagName.'"
+			')[0]->id;
+
+		return $id;
 	}
 }
