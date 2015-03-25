@@ -12,8 +12,11 @@
 			</h3>
 		</div><!-- panel heading -->
 
+		{!! Form::open(['method' => 'POST', 'url' => 'admin/trainings/bulkedit']) !!}
+
 		<table class="table">
 			<tr>
+				<th>Valitud</th>
 				<th>Nimi</th>
 				<th>Kirjeldus</th>
 				<th>Aadress</th>
@@ -22,6 +25,7 @@
 			</tr>
 			@foreach ($trainings as $training)
 				<tr>
+					<td>{!! Form::checkbox('selected', $training->id, false) !!}</td>
 					<td>
 						<a href="{{ url('admin/trainings', array($training->id, 'edit') )}}">
 							{{ $training->title }}
@@ -42,6 +46,19 @@
 				</tr>
 			@endforeach
 		</table>
+
+		<div class="panel-footer">
+			<div class="form-group">
+				{!! Form::label('action', 'Tegevus') !!}
+				{!! Form::select('action', array('del' => 'Kustuta', 'conf' => 'Kinnita', 'remConf' => 'Eemalda kinnitus'), 'conf', ['class' => 'form-control']) !!}
+			</div>
+			<div class="form-group">
+				{!! Form::submit('Kinnita tegevus' , ['class' => 'form-control btn btn-primary']) !!}
+			</div>
+		</div>
+
+		{!! Form::close() !!}
+
 	</div>
 
 	<div class="panel panel-default">

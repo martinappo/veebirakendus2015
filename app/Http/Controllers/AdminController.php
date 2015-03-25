@@ -47,6 +47,16 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Edit trainings by bulk in trainings list.
+	 * 
+	 * @return Response
+	 */
+	public function trainingsBulkEdit()
+	{
+		dd(Request::input('selected'));
+	}
+
+	/**
 	 * Show edit training view to admin.
 	 * 
 	 * @param  int $id [id of training]

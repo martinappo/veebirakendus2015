@@ -12,8 +12,8 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::checkbox('confirmed', '1'); !!}
 			{!! Form::label('confirmed', 'Kinnitatud') !!}
+			{!! Form::checkbox('confirmed', 1, null, ['class' => 'form-control']) !!}
 		</div>
 
 		<div class="form-group">
@@ -35,6 +35,8 @@
 			{!! Form::submit('Muuda' , ['class' => 'form-control btn btn-primary']) !!}
 		</div>
 
+	{!! Form::close() !!}
+
 		@section('footer')
 			<script>
 				$('#tag_list').select2({
@@ -43,6 +45,6 @@
 				});
 			</script>
 		@endsection
-	{!! Form::close() !!}
+
 
 @stop
