@@ -67,12 +67,15 @@ class AdminController extends Controller {
 		{
 			case 'delete':
 				Training::destroy($selectedTrainings);
+				session()->flash('flash_message', 'Treening(ud) kustutatud!');
 				break;
 			case 'confirm':
 				Training::whereIn('id', $selectedTrainings)->update(array('confirmed' => true));
+				session()->flash('flash_message', 'Treening(ud) kinnitatud!');
 				break;
 			case 'removeConfirmation':
 				Training::whereIn('id', $selectedTrainings)->update(array('confirmed' => false));
+				session()->flash('flash_message', 'Kinnitus eemaldatud!');
 				break;
 		}
 

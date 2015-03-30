@@ -50,7 +50,7 @@
 		<div class="panel-footer">
 			<div class="form-group">
 				{!! Form::label('action', 'Tegevus') !!}
-				{!! Form::select('action', array('delete' => 'Kustuta', 'confirm' => 'Kinnita', 'removeConfirmation' => 'Eemalda kinnitus'), 'conf', ['class' => 'form-control']) !!}
+				{!! Form::select('action', array('delete' => 'Kustuta', 'confirm' => 'Kinnita', 'removeConfirmation' => 'Eemalda kinnitus'), 'confirm', ['class' => 'form-control']) !!}
 			</div>
 			<div class="form-group">
 				{!! Form::submit('Kinnita tegevus' , ['class' => 'form-control btn btn-primary']) !!}
