@@ -53,7 +53,30 @@ class AdminController extends Controller {
 	 */
 	public function trainingsBulkEdit()
 	{
-		dd(Request::input('selected'));
+		$selectedTrainings = array();
+
+		foreach (Request::all() as $key => $item)
+		{
+			if (strcmp($item, 'selected') == 0)
+			{
+				array_push($selectedTrainings, $key);
+			}
+		}
+
+		switch (Request::input('action'))
+		{
+			case 'delete':
+				Training::destroy($selectedTrainings);
+				break;
+			case 'confirm':
+				Training::whereIn('id', $selectedTrainings)->update(array('confirmed' => true));
+				break;
+			case 'removeConfirmation':
+				Training::whereIn('id', $selectedTrainings)->update(array('confirmed' => false));
+				break;
+		}
+
+		return redirect('admin/trainings');
 	}
 
 	/**

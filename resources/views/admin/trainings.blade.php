@@ -25,7 +25,7 @@
 			</tr>
 			@foreach ($trainings as $training)
 				<tr>
-					<td>{!! Form::checkbox('selected', $training->id, false) !!}</td>
+					<td>{!! Form::checkbox($training->id, 'selected', false) !!}</td>
 					<td>
 						<a href="{{ url('admin/trainings', array($training->id, 'edit') )}}">
 							{{ $training->title }}
@@ -50,7 +50,7 @@
 		<div class="panel-footer">
 			<div class="form-group">
 				{!! Form::label('action', 'Tegevus') !!}
-				{!! Form::select('action', array('del' => 'Kustuta', 'conf' => 'Kinnita', 'remConf' => 'Eemalda kinnitus'), 'conf', ['class' => 'form-control']) !!}
+				{!! Form::select('action', array('delete' => 'Kustuta', 'confirm' => 'Kinnita', 'removeConfirmation' => 'Eemalda kinnitus'), 'conf', ['class' => 'form-control']) !!}
 			</div>
 			<div class="form-group">
 				{!! Form::submit('Kinnita tegevus' , ['class' => 'form-control btn btn-primary']) !!}
