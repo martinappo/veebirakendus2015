@@ -26,7 +26,7 @@
 			<small>Kinnitamata</small>
 			@foreach ($trainings as $training)
 				<li>
-					<a href="{{ url('admin/trainings', array($training->id, 'edit') )}}">
+					<a href="{{ url('trainings', array($training->id, 'edit') )}}">
 						{{ $training->title }}
 					</a>
 				</li>

@@ -27,7 +27,7 @@
 				<tr>
 					<td>{!! Form::checkbox($training->id, 'selected', false) !!}</td>
 					<td>
-						<a href="{{ url('admin/trainings', array($training->id, 'edit') )}}">
+						<a href="{{ url('trainings', array($training->id, 'edit') )}}">
 							{{ $training->title }}
 						</a>
 					</td>

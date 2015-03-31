@@ -1,3 +1,15 @@
+		@if (Auth::user()->isAdmin())
+			<div class="input-group col-md-3">
+				<span class="input-group-addon">
+					{!! Form::hidden('confirmed', 0) !!}
+					{!! Form::checkbox('confirmed', true, ['class' => 'form-control']) !!}
+				</span>
+				<span class="form-control">
+					{!! Form::label('confirmed', 'Kinnitatud') !!}
+				</span>
+			</div>
+		@endif
+
 		<div class="form-group">
 			{!! Form::label('title', 'Nimi') !!}
 			{!! Form::text('title', null, ['class' => 'form-control']) !!}

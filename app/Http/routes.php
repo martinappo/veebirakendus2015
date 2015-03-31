@@ -24,15 +24,17 @@ Route::controllers([
 /*
 Admin routes
  */
+//Admin panel
 Route::get('/admin', 'AdminController@index');
+//Actions with trainings
 Route::get('/admin/trainings', 'AdminController@trainings');
-Route::get('/admin/trainings/{id}/edit', 'AdminController@editTraining');
+Route::post('/admin/trainings/bulkedit', 'AdminController@trainingsBulkEdit');
+//Actions with users
 Route::get('/admin/users','AdminController@users');
 Route::get('/admin/users/{id}/edit','AdminController@editUser');
 Route::patch('/admin/users/{id}','AdminController@updateUser');
-Route::patch('/admin/trainings/{id}','AdminController@updateTraining');
-Route::post('/admin/trainings/bulkedit', 'AdminController@trainingsBulkEdit');
 Route::delete('/admin/users/{id}','AdminController@destroyUser');
+//Actions with tags
 Route::delete('/admin/tags/{id}','AdminController@destroyTag');
 
 

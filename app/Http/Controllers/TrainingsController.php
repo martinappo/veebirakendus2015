@@ -86,8 +86,14 @@ class TrainingsController extends Controller {
 	public function update($id, TrainingRequest $request)
 	{
 		$training = Training::findOrFail($id);
-		$training->confirmed = false;
 		$training->update($request->all());
+
+		$isAdmin = Auth::user()->isAdmin();
+
+		if (!$isAdmin)
+		{
+			$training->confirmed = false;
+		}
 
 		$tags = array();
 
@@ -100,6 +106,10 @@ class TrainingsController extends Controller {
 
 		session()->flash('flash_message', 'Treening uuendatud!');
 
+		if ($isAdmin)
+		{
+			return redirect('admin/trainings');
+		}
 		return redirect('profile');
 	}
 
