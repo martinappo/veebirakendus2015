@@ -23,8 +23,18 @@ elixir(function(mix) {
 	mix.scripts([
 		'libs/jquery.min.js',
 		'libs/bootstrap.min.js',
-		'libs/select2.min.js',
 		'libs/bootbox.min.js',
 		'loginBox.js',
-	])
+	],
+	'public/js/main.min.js'
+	)
+
+	mix.scripts([
+		'forform/jquery.ui.widget.js',
+		'forform/jquery.iframe-transport.js',
+		'forform/jquery.fileupload.js',
+		'forform/select2.min.js'
+	],
+	'public/js/forms.min.js'
+	)
 });

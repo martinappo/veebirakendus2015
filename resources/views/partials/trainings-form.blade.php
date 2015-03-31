@@ -35,10 +35,33 @@
 		</div>
 
 		@section('footer')
+			<script src="/js/forms.min.js"></script>
 			<script>
+				//Tags
 				$('#tag_list').select2({
 					placeholder: 'Vali märksõnad',
 					tags: true,
+				});
+				//Fileupload
+				$(function () {
+					$('#fileupload').fileupload({
+						url: 'upload',
+						dataType: 'json',
+
+						done: function (e, data) {
+							$.each(data.files, function (index, file) {
+								 $('<p/>').text(file.name).appendTo('#files');
+							});
+						},
+						progressall: function (e, data) {
+							var progress = parseInt(data.loaded / data.total * 100, 10);
+							$('#progress .progress-bar').css(
+								 'width',
+								 progress + '%'
+							);
+						}
+					}).prop('disabled', !$.support.fileInput)
+						.parent().addClass($.support.fileInput ? undefined : 'disabled');
 				});
 			</script>
 		@endsection

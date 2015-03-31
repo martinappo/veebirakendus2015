@@ -32,7 +32,7 @@
 	<div class="container" id="mainContainer">
 		@yield('content')
 	</div>
-	<script src="/js/all.js"></script>
+	<script src="/js/main.min.js"></script>
 	@yield('footer')
 </body>
 </html>

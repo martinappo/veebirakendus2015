@@ -3,6 +3,7 @@
 Trainings routes
  */
 Route::resource('trainings', 'TrainingsController');
+Route::post('trainings/{id}/upload', 'TrainingsController@upload');
 
 /*
 Home routes

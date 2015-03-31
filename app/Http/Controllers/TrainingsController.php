@@ -129,6 +129,17 @@ class TrainingsController extends Controller {
 		return redirect('profile');
 	}
 
+	/**
+	 * Attach an uploaded file to the training
+	 * 
+	 * @param  int
+	 * @return Response
+	 */
+	public function upload($id)
+	{
+		return response()->json(Request::all(), 200);
+	}
+
 	/*
 	================================================== Private functions start from here ====================================================
 	 */
