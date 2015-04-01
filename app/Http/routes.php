@@ -3,7 +3,8 @@
 Trainings routes
  */
 Route::resource('trainings', 'TrainingsController');
-Route::post('trainings/{id}/upload', 'TrainingsController@upload');
+Route::put('trainings/{id}/upload', 'TrainingsController@upload');
+Route::delete('trainings/file/{id}', 'TrainingsController@destroyTrainingFile');
 
 /*
 Home routes

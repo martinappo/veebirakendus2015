@@ -33,7 +33,8 @@ elixir(function(mix) {
 		'forform/jquery.ui.widget.js',
 		'forform/jquery.iframe-transport.js',
 		'forform/jquery.fileupload.js',
-		'forform/select2.min.js'
+		'forform/select2.min.js',
+		'forform/custom.for.form.js',
 	],
 	'public/js/forms.min.js'
 	)

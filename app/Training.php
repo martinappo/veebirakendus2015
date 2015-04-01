@@ -59,6 +59,14 @@ class Training extends Model {
 	public function tags() {
 		return $this->belongsToMany('App\Tag', 'tag_training')->withTimestamps();
 	}
+
+	/**
+	 * A training can have many files
+	*/
+	public function files() {
+		return $this->hasMany('App\TrainingFile');
+	}
+
 	/**
 	* Check if user is owner of the training
 	*/

@@ -5,11 +5,14 @@
 		<h1>Muuda treeningut {!! $training->title !!}</h1>
 	</div>
 
-	{!! Form::model($training, ['method' => 'PATCH', 'url' => 'trainings/' .$training->id]) !!}
-		@include('partials.trainings-form', ['submitText' => 'Muuda'])
-	{!! Form::close() !!}
-	@include('partials.form-upload')
-
+		<div class="col-sm-6">
+			{!! Form::model($training, ['method' => 'PATCH', 'url' => 'trainings/' .$training->id]) !!}
+				@include('partials.trainings-form', ['submitText' => 'Muuda'])
+			{!! Form::close() !!}
+		</div>
+		<div class="col-sm-6">
+			@include('partials.form-upload')
+		</div>
 	@include('errors.list')
 
 @stop

@@ -1,11 +1,21 @@
-{!! Form::open( ['method' => 'POST', 'url' => 'trainings/' .$training->id. '/upload', 'files' => 'true']) !!}
-<input id="fileupload" type="file" name="file">
+{!! Form::open(['method' => 'PUT', 'url' => 'trainings/'.$training->id.'/upload']) !!}
+	<input id="fileupload" type="file" name="file" multiple="multiple">
 {!! Form::close() !!}
-<!-- The global progress bar -->
-<div id="progress" class="progress">
-	<div class="progress-bar progress-bar-success"></div>
-</div>
-<!-- The container for the uploaded files -->
-<div id="files" class="files"></div>
+
 <br>
 
+<p class="small">
+	Lisatud pildid:
+</p>
+<div id="files" class="well files">
+	<br>
+	@foreach ($training->files as $image)
+		@include('partials.single-image', ['file' => $image])
+	@endforeach
+	<span class="clearfix"></span>
+
+</div>
+
+<div id="fileErrors" class="alert alert-warning" style="display:none">
+	<p id="fileErrorMessage"></p>
+</div>

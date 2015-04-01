@@ -6,3 +6,4 @@ pw.txt
 *.sublime-workspace
 public/img/temp/
 composer.lock
+public/uploads

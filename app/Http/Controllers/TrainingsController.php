@@ -2,13 +2,17 @@
 
 use App\Training;
 use App\Tag;
+use App\TrainingFile;
 use App\Http\Requests;
 use App\Http\Requests\TrainingRequest;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
-
+use File;
+use DateTime;
+use Image;
 use Request;
+use Response;
 
 class TrainingsController extends Controller {
 
@@ -53,11 +57,13 @@ class TrainingsController extends Controller {
 	 */
 	public function store(TrainingRequest $request)
 	{
-		$this->createTraining($request);
+		$training = $this->createTraining($request);
 
-		session()->flash('flash_message', 'Treening lisatud!');
+		session()->flash('flash_message', 'Treening lisatud! Nüüd võid lisada oma treeningule ka pilte.');
 
-		return redirect('profile');
+		$tags = Tag::lists('name', 'id');
+
+		return view('trainings.edit', compact('training', 'tags'));
 	}
 
 	/**
@@ -137,7 +143,58 @@ class TrainingsController extends Controller {
 	 */
 	public function upload($id)
 	{
-		return response()->json(Request::all(), 200);
+		$fileObject = Request::file('file');
+		$fileRealName = $fileObject->getClientOriginalName();
+
+		if ($this->verifyImageFile($fileObject))
+		{
+			$destinationPath = 'uploads/training' . $id . '/';
+
+			if (!File::isDirectory($destinationPath))
+			{
+				File::makeDirectory($destinationPath);
+			}
+
+			$date = new DateTime();
+			$filename = $date->getTimestamp() . '_' . $fileRealName;
+
+			$uploadSuccess = $fileObject->move($destinationPath, $filename);
+
+			if ($uploadSuccess)
+			{
+				Image::make($destinationPath . $filename)
+				->resize(150, null, function($constraint) {
+					$constraint->aspectRatio();
+				})
+				->save($destinationPath . "thumbnail_" . $filename);
+
+				$file = new TrainingFile();
+				$file->training_id = $id;
+				$file->url = $destinationPath . $filename;
+				$file->name = $fileRealName;
+				$file->thumbnail_url = $destinationPath . "thumbnail_" . $filename;
+				$file->save();
+
+				$url = asset($file->thumbnail_url);
+				return Response::view('partials.single-image', compact('file'))->header('Content-Type', 'application/json');
+			}
+		}
+
+		return Response::json(['imageName' => $fileRealName . '(' . $fileObject->getSize()/1000000 . 'MB )', 'message' => 'Pildi maksmiaalne suurus on 5MB ning fail peab olema pildifail'], 400);
+	}
+
+	/**
+	 * Delete the training file
+	 * 
+	 * @param  int
+	 * @return Response
+	 */
+	public function destroyTrainingFile($id)
+	{
+		$file = TrainingFile::findOrFail($id);
+		$file->delete();
+
+		return Response::json('success', 200);
 	}
 
 	/*
@@ -218,6 +275,22 @@ class TrainingsController extends Controller {
 			')[0]->id;
 
 		return $id;
+	}
+
+	/**
+	 * Verify the file size and type for the image
+	 * @param  $fileObject [file received from the input]
+	 * @return [boolean]             [true if image is legit]
+	 */
+	private function verifyImageFile($fileObject) {
+		$allowedExtensions = array('jpg', 'jpeg', 'png', 'tiff', 'gif');
+
+		if (in_array($fileObject->getClientOriginalExtension(), $allowedExtensions) && $fileObject->getSize() < 5000000)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 }

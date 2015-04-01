@@ -23,3 +23,14 @@ nav.navbar {
 .alert-flash {
 	margin-top: 20px;
 }
+
+.edit-training-image-container {
+	height: 200px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.edit-training-image-container img {
+	height: 100px;
+	width: auto;
+}
