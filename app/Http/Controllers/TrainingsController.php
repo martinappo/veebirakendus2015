@@ -145,8 +145,8 @@ class TrainingsController extends Controller {
 	{
 		$fileObject = Request::file('file');
 		$fileRealName = $fileObject->getClientOriginalName();
-
-		if ($this->verifyImageFile($fileObject))
+		$error = $this->verifyImageFile($fileObject);
+		if (empty($error))
 		{
 			$destinationPath = 'uploads/training' . $id . '/';
 
@@ -180,7 +180,7 @@ class TrainingsController extends Controller {
 			}
 		}
 
-		return Response::json(['imageName' => $fileRealName . '(' . $fileObject->getSize()/1000000 . 'MB )', 'message' => 'Pildi maksmiaalne suurus on 5MB ning fail peab olema pildifail'], 400);
+		return Response::json(['message' => $fileRealName . ' - ' . $error], 400);
 	}
 
 	/**
@@ -192,6 +192,9 @@ class TrainingsController extends Controller {
 	public function destroyTrainingFile($id)
 	{
 		$file = TrainingFile::findOrFail($id);
+		//Deleting the real files
+		File::delete($file->url, $file->thumbnail_url);
+		//Deleting from database
 		$file->delete();
 
 		return Response::json('success', 200);
@@ -283,14 +286,17 @@ class TrainingsController extends Controller {
 	 * @return [boolean]             [true if image is legit]
 	 */
 	private function verifyImageFile($fileObject) {
-		$allowedExtensions = array('jpg', 'jpeg', 'png', 'tiff', 'gif');
+		$error = "";
 
-		if (in_array($fileObject->getClientOriginalExtension(), $allowedExtensions) && $fileObject->getSize() < 5000000)
+		if (!strcmp(explode("/", $fileObject->getMimeType())[0], "image") == 0)
 		{
-			return true;
+			$error .= "Vale failitüüp. ";
 		}
-
-		return false;
+		elseif ($fileObject->getSize() > 5000000)
+		{
+			$error .="Fail üle 5MB. ";
+		}
+		return $error;
 	}
 
 }
