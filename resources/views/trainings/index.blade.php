@@ -5,6 +5,8 @@
 		<h1>Treeningud</h1>
 	</div>
 
+	<div id="map-container"></div>
+
 	<table class="table">
 		<tr>
 			<th>Nimi</th>

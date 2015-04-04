@@ -5,6 +5,7 @@ Trainings routes
 Route::resource('trainings', 'TrainingsController');
 Route::put('trainings/{id}/upload', 'TrainingsController@upload');
 Route::delete('trainings/file/{id}', 'TrainingsController@destroyTrainingFile');
+Route::get('trainingsmap', 'TrainingsController@trainingsForMap');
 
 /*
 Home routes

@@ -19,7 +19,7 @@
 	<![endif]-->
 </head>
 <body>
-	<section id="mainHeader" class="container-fluid">
+	<header id="mainHeader" class="container-fluid">
 		<div class="row">
 			@include('partials.navbar')
 			<div class="container">

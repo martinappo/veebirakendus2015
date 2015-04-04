@@ -4,11 +4,12 @@
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-position: center center;
+	padding-top: 50px;
+	padding-bottom: 50px;
 }
 
-.map-container {
-	padding-top: 100px;
-	padding-bottom: 100px;
+#map-container {
+	height: 450px;
 	opacity: 0.95;
 }
 

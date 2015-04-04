@@ -136,6 +136,16 @@ class TrainingsController extends Controller {
 	}
 
 	/**
+	 * Get trainings for google maps api
+	 * 
+	 * @return Response
+	 */
+	public function trainingsForMap()
+	{
+		return Training::latest()->confirmed()->get();
+	}
+
+	/**
 	 * Attach an uploaded file to the training
 	 * 
 	 * @param  int
