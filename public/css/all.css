@@ -6244,7 +6244,7 @@ label,
 	padding-bottom: 50px;
 }
 
-#map-container {
+.map-container {
 	height: 450px;
 	opacity: 0.95;
 }

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+	//Modal box
 	$('.open-in-modal').on('click', function(event){
 		event.preventDefault();
 		var title = $(this).attr('title');
@@ -47,6 +47,14 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	//Select
+	if ($('#tag_list').length){
+		$('#tag_list').select2({
+			placeholder: 'Vali märksõnad',
+			tags: true,
+		});
+	}
 
 });
 

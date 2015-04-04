@@ -45,6 +45,33 @@ class Training extends Model {
 	}
 
 	/**
+	 * Get trainings with keywords
+	 * @param $query
+	 * @return void
+	 */
+	public function scopeKeyword($query, $keywords) {
+		if (!empty($keywords)) {
+			foreach ($keywords as $keyword)
+			{
+				$query->orwhere('description', 'LIKE', '%'.$keyword.'%')
+					->orWhere('title', 'LIKE', '%'.$keyword.'%');
+			}
+		}
+	}
+
+	/**
+	 * Get trainings with given tags
+	 * @param $query
+	 * @return void
+	 */
+	public function scopeTags($query, $tags) {
+		$query
+			->join('tag_training', 'tag_training.training_id', '=', 'trainings.id')
+			->orWhereIn('tag_training.tag_id', $tags)
+			->groupBy('trainings.id');
+	}
+
+	/**
 	 * A training is owned by a user.
 	 * @return \Illuminate\Database\Eloquent\Relations\BlongsTo
 	*/

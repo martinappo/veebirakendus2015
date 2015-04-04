@@ -16,7 +16,7 @@ if ($('#map-container').length){
 	function getTrainings() {
 		jQuery.ajax({
 			type: 'GET',
-			url: 'trainingsmap',
+			url: 'trainings/map',
 			success: function(data) {
 				populateTrainings(data);
 			}

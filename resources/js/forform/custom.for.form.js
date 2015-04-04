@@ -1,9 +1,3 @@
-//Tags
-$('#tag_list').select2({
-	placeholder: 'Vali märksõnad',
-	tags: true,
-});
-
 //Fileupload
 $('#fileupload').fileupload({
 	dataType: 'json',

@@ -33,7 +33,9 @@ class TrainingsController extends Controller {
 	public function index()
 	{
 		$trainings = Training::latest()->confirmed()->get();
-		return view('trainings.index', compact('trainings'));
+		$tags = Tag::lists('name', 'id');
+
+		return view('trainings.index', compact('trainings','tags'));
 	}
 
 	/**
@@ -208,6 +210,36 @@ class TrainingsController extends Controller {
 		$file->delete();
 
 		return Response::json('success', 200);
+	}
+
+	/**
+	 * Searching trainings by keywords and tags, returning search result
+	 * 
+	 * @param  
+	 * @return Response
+	 */
+	public function search()
+	{
+		$tags = Request::input('tag_list');
+		if (empty($tags)) {
+			return Response::json('empty', 400);
+		}
+		$realTags = array();
+		$userKeywords = array();
+
+		//Separating already existing tags from user keywords
+		foreach ($tags as $key => $tag){
+			if (is_numeric($tag) && Tag::find($tag)) {
+				$realTags[] = $tag;
+			}
+			else {
+				$userKeywords[] = $tag;
+			}
+		}
+
+		$trainings = Training::keyword($userKeywords)->tags($realTags)->get();
+
+		return view('partials.trainings-list', compact('trainings'));
 	}
 
 	/*

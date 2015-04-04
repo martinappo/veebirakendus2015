@@ -5,31 +5,29 @@
 		<h1>Treeningud</h1>
 	</div>
 
-	<div id="map-container"></div>
+	<div class="col-md-6">
+		<div id="map-container" class="map-container"></div>
+	</div>
+	<div class="col-md-6">
+		{!! Form::open(['method' => 'GET', 'url' => 'trainings/search', 'id' => 'search-form']) !!}
+			<div class="form-group">
+				{!! Form::label('tag_list', 'Märksõnad') !!}
+				{!! Form::select('tag_list[]', $tags, null, ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) !!}
+			</div>
+			<div class="form-group">
+				{!! Form::submit('Otsi' , ['class' => 'btn btn-primary', 'id' => 'search-trainings']) !!}
+			</div>
+		{!! Form::close() !!}
+	</div>
 
-	<table class="table">
-		<tr>
-			<th>Nimi</th>
-			<th>Kirjeldus</th>
-			<th>Aadress</th>
-			<th>Koordinaadid</th>
-			<th>Märksõnad</th>
-		</tr>
-
-		@foreach ($trainings as $training)
-			<tr>
-				<td>{{ $training->title }}</td>
-				<td>{{ $training->description }}</td>
-				<td>{{ $training->aadress }}</td>
-				<td>{{ $training->coordinates }}</td>
-				<td>
-					@foreach ($training->tags as $tag)
-						{{ $tag->name . ' '}}
-					@endforeach
-				</td>
-			</tr>
-		@endforeach
-
-	</table>
+	<div class="col-md-12">
+		<div class="clearfix"></div>
+		<hr>
+		<h3>Leitud treeningud</h3>
+		<hr>
+		<div id="search-results">
+			@include('partials.trainings-list')
+		</div>
+	</div>
 
 @stop

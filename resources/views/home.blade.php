@@ -2,7 +2,7 @@
 
 @section('header')
 <div class="home-map">
-	<div id="map-container" class="container"></div>
+	<div id="map-container" class="container map-container"></div>
 </div>
 @endsection
 

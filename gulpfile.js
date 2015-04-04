@@ -24,8 +24,10 @@ elixir(function(mix) {
 		'libs/jquery.min.js',
 		'libs/bootstrap.min.js',
 		'libs/bootbox.min.js',
-		'loginBox.js',
+		'libs/select2.min.js',
+		'common.js',
 		'custom.map.js',
+		'search.trainings.js',
 	],
 	'public/js/main.min.js'
 	)
@@ -34,7 +36,6 @@ elixir(function(mix) {
 		'forform/jquery.ui.widget.js',
 		'forform/jquery.iframe-transport.js',
 		'forform/jquery.fileupload.js',
-		'forform/select2.min.js',
 		'forform/custom.for.form.js',
 		'forform/maps.form.js',
 	],
