@@ -1,5 +1,5 @@
 <?php namespace App;
-
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Training extends Model {
@@ -49,11 +49,11 @@ class Training extends Model {
 	 * @param $query
 	 * @return void
 	 */
-	public function scopeKeyword($query, $keywords) {
+	public function scopeKeywordSearch($query, $keywords) {
 		if (!empty($keywords)) {
 			foreach ($keywords as $keyword)
 			{
-				$query->orwhere('description', 'LIKE', '%'.$keyword.'%')
+				$query->orWhere('description', 'LIKE', '%'.$keyword.'%')
 					->orWhere('title', 'LIKE', '%'.$keyword.'%');
 			}
 		}
@@ -64,11 +64,12 @@ class Training extends Model {
 	 * @param $query
 	 * @return void
 	 */
-	public function scopeTags($query, $tags) {
+	public function scopeTagsSearch($query, $tags) {
 		$query
 			->join('tag_training', 'tag_training.training_id', '=', 'trainings.id')
-			->orWhereIn('tag_training.tag_id', $tags)
-			->groupBy('trainings.id');
+			->whereIn('tag_training.tag_id', $tags)
+			->groupBy('trainings.id')
+			->orderBy(DB::raw('count(*)'), 'desc');
 	}
 
 	/**

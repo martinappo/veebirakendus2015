@@ -237,7 +237,7 @@ class TrainingsController extends Controller {
 			}
 		}
 
-		$trainings = Training::keyword($userKeywords)->tags($realTags)->get();
+		$trainings = Training::tagsSearch($realTags)->keywordSearch($userKeywords)->get();
 
 		return view('partials.trainings-list', compact('trainings'));
 	}
