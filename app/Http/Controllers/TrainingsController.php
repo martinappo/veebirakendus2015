@@ -21,8 +21,8 @@ class TrainingsController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth', ['except' => 'index']);
-		$this->middleware('trainingOwner', ['only' => array('edit','update')]);
+		$this->middleware('auth', ['except' => array('index', 'trainingsForMap', 'search') ]);
+		$this->middleware('trainingOwner', ['only' => array('edit','update') ]);
 	}
 
 	/**
@@ -158,6 +158,7 @@ class TrainingsController extends Controller {
 		$fileObject = Request::file('file');
 		$fileRealName = $fileObject->getClientOriginalName();
 		$error = $this->verifyImageFile($fileObject);
+
 		if (empty($error))
 		{
 			$destinationPath = 'uploads/training' . $id . '/';
@@ -334,9 +335,9 @@ class TrainingsController extends Controller {
 		{
 			$error .= "Vale failitüüp. ";
 		}
-		elseif ($fileObject->getSize() > 5000000)
+		elseif ($fileObject->getSize() > 3000000)
 		{
-			$error .="Fail üle 5MB. ";
+			$error .="Fail üle 3MB. ";
 		}
 		return $error;
 	}
