@@ -34,6 +34,9 @@
 						@if ($user->fb_id)
 							<span class="glyphicon glyphicon-ok"></span>
 							Seotud facebookiga.
+							{!! Form::open(['method' => 'DELETE', 'url' => '/auth/social/facebook']) !!}
+								<button type="submit" class="btn btn-danger btn-mini">Seo lahti</button>
+							{!! Form::close() !!}
 						@else
 							<a class="btn btn-default" href="/auth/social/facebook">Seo kasutaja</a>
 						@endif
@@ -45,6 +48,9 @@
 						@if ($user->g_id)
 							<span class="glyphicon glyphicon-ok"></span>
 							Seotud googlega
+							{!! Form::open(['method' => 'DELETE', 'url' => 'auth/social/google']) !!}
+								<button type="submit" class="btn btn-danger btn-mini">Seo lahti</button>
+							{!! Form::close() !!}
 						@else
 							<a class="btn btn-default" href="/auth/social/google">Seo kasutaja</a>
 						@endif
