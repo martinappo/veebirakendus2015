@@ -77,6 +77,13 @@ class AuthController extends Controller {
 	public function handleProviderCallback($provider)
 	{
 		$user = Socialize::with($provider)->user();
+
+		if (!$user)
+		{
+			session()->flash('flash_message', 'Sisselogimine ebaõnnestus.');
+			return redirect('home');
+		}
+
 		$socialId = $user->getId();
 
 		if ($this->authenticateWith($provider, $socialId))
