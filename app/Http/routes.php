@@ -49,3 +49,4 @@ User routes
  */
 Route::get('/profile', 'UserController@index');
 Route::delete('/profile','UserController@destroyUser');
+Route::get('/notifications', 'UserController@notifications');

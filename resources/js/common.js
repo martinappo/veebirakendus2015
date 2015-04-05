@@ -81,4 +81,3 @@ if ($('#tag_list').length){
 		tags: true,
 	});
 }
-

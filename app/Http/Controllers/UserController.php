@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Notification;
 use Auth;
 
 class UserController extends Controller {
@@ -29,7 +30,7 @@ class UserController extends Controller {
 
 	/**
 	 * Delete the user from database
-	 * @param  int $id [Id of the user]
+	 * @param
 	 * @return Response
 	 */
 	public function destroyUser()
@@ -39,6 +40,16 @@ class UserController extends Controller {
 		$user->delete();
 		session()->flash('flash_message', 'Kasutaja kustutatud!');
 		return redirect('home');
+	}
+
+	/**
+	 * Get users notifications
+	 * @param 
+	 * @return Response
+	 */
+	public function notifications()
+	{
+		return view('partials.notifications');
 	}
 
 }

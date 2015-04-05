@@ -33,6 +33,25 @@
 		@yield('content')
 	</div>
 	<script src="/js/main.min.js"></script>
+	@if (!Auth::guest())
+		<script>
+			window.setInterval(function(){
+				jQuery.ajax({
+					type:'GET',
+					url: '/notifications',
+					data: {
+						updated: $('#notificat').val(),
+					},
+					success: function(data) {
+						$('#notifications').html(data);
+					},
+					error: function(data) {
+						console.log(data.responseJSON);
+					}
+				});
+			}, 10000);
+		</script>
+	@endif
 	@yield('footer')
 </body>
 </html>

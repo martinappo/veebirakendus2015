@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Training;
+use App\Notification;
 use App\Tag;
 use App\TrainingFile;
 use App\Http\Requests;
@@ -94,14 +95,15 @@ class TrainingsController extends Controller {
 	public function update($id, TrainingRequest $request)
 	{
 		$training = Training::findOrFail($id);
-		$training->update($request->all());
+		$currentStatus = $training->confirmed;
 
 		$isAdmin = Auth::user()->isAdmin();
-
 		if (!$isAdmin)
 		{
 			$training->confirmed = false;
 		}
+
+		$training->update($request->all());
 
 		$tags = array();
 
@@ -114,10 +116,16 @@ class TrainingsController extends Controller {
 
 		session()->flash('flash_message', 'Treening uuendatud!');
 
+		//Add notification to user about changing training status.
 		if ($isAdmin)
 		{
+			if (!$currentStatus && $training->confirmed || true)
+			{
+				$this->addNotification($training);
+			}
 			return redirect('admin/trainings');
 		}
+
 		return redirect('profile');
 	}
 
@@ -328,7 +336,8 @@ class TrainingsController extends Controller {
 	 * @param  $fileObject [file received from the input]
 	 * @return [boolean]             [true if image is legit]
 	 */
-	private function verifyImageFile($fileObject) {
+	private function verifyImageFile($fileObject)
+	{
 		$error = "";
 
 		if (!strcmp(explode("/", $fileObject->getMimeType())[0], "image") == 0)
@@ -340,6 +349,19 @@ class TrainingsController extends Controller {
 			$error .="Fail üle 3MB. ";
 		}
 		return $error;
+	}
+
+	/**
+	 * Adds notification about the training.
+	 * @param [type] $training [description]
+	 */
+	private function addNotification($training)
+	{
+		$owner = $training->user()->first();
+		$notification = new Notification();
+		$notification->title = 'Treeningut muudetud!';
+		$notification->content = 'Administraator muutis teie treeningut: '. $training->title . '.';
+		$owner->notifications()->save($notification);
 	}
 
 }

@@ -50,8 +50,13 @@ nav.navbar {
 	text-align: center;
 	color: #fff;
 }
+
 #progress {
 	color: #fff;
 	text-align: center;
 	padding: 5px;
+}
+
+#notifications {
+	width: 300px;
 }
