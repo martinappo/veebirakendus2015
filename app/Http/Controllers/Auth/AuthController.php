@@ -89,7 +89,7 @@ class AuthController extends Controller {
 		if ($this->authenticateWith($provider, $socialId))
 		{
 			session()->flash('flash_message', 'Sisse logitud!');
-			return redirect('home');
+			return redirect()->back();
 		}
 		else if (Auth::guest())
 		{
