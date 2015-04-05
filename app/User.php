@@ -39,6 +39,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * A user can have many notifications
+	*/
+	public function notifications() {
+		return $this->hasMany('App\Notification');
+	}
+
+	/**
 	 * If is admin
 	*/
 	public function isAdmin() {

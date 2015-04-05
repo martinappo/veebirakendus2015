@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Training;
+use App\Notification;
 use App\Tag;
 use App\Http\Requests;
 use App\Http\Requests\TrainingRequest;
@@ -70,11 +71,21 @@ class AdminController extends Controller {
 				session()->flash('flash_message', 'Treening(ud) kustutatud!');
 				break;
 			case 'confirm':
-				Training::whereIn('id', $selectedTrainings)->update(array('confirmed' => true));
+				foreach ($selectedTrainings as $training)
+				{
+					$training = Training::find($training);
+					$training->update(array('confirmed' => true));
+					$this->addNotification($training);
+				}
 				session()->flash('flash_message', 'Treening(ud) kinnitatud!');
 				break;
 			case 'removeConfirmation':
-				Training::whereIn('id', $selectedTrainings)->update(array('confirmed' => false));
+				foreach ($selectedTrainings as $training)
+				{
+					$training = Training::find($training);
+					$training->update(array('confirmed' => true));
+					$this->addNotification($training);
+				}
 				session()->flash('flash_message', 'Kinnitus eemaldatud!');
 				break;
 		}
@@ -192,6 +203,19 @@ class AdminController extends Controller {
 		');
 
 		return $trainingsWithUser;
+	}
+
+	/**
+	 * Adds notification about the training.
+	 * @param $training
+	 */
+	private function addNotification($training)
+	{
+		$owner = $training->user()->first();
+		$notification = new Notification();
+		$notification->title = 'Treeningut muudetud!';
+		$notification->content = 'Administraator muutis teie treeningut: '. $training->title . '.';
+		$owner->notifications()->save($notification);
 	}
 
 }
