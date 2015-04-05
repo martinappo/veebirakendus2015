@@ -109,7 +109,8 @@ class AuthController extends Controller {
 	{
 		$user = Auth::user();
 		$socialIdVar = $this->getSocialIdVar($provider);
-		$user->update(array($socialIdVar => ''));
+		$user->$socialIdVar = '';
+		$user->save();
 		session()->flash('flash_message', 'Konto teenusest '. $provider . ' lahti seotud.');
 		return redirect('profile');
 	}
