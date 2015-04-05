@@ -91,13 +91,28 @@ class AuthController extends Controller {
 			session()->flash('flash_message', 'Sisse logitud!');
 			return redirect('home');
 		}
-		else
+		else if (Auth::guest())
 		{
 			$this->registerWith($provider, $user);
+			session()->flash('flash_message', 'Teie kasutaja on edukalt registreeritud!');
+			return redirect('profile');
+		}
+		else {
+			$this->connectWith($provider, $user);
 			session()->flash('flash_message', 'Teie kasutaja on edukalt seotud!');
 			return redirect('profile');
 		}
 
+	}
+
+	public function disconnect($provider)
+	{
+		$user = Auth::user();
+		$socialIdVar = $this->getSocialIdVar($provider);
+		$user->$socialIdVar = '';
+		$user->save();
+		session()->flash('flash_message', 'Konto teenusest '. $provider . ' lahti seotud.');
+		return redirect('profile');
 	}
 
 	/* ======================================= Private functions =================================== */
@@ -111,16 +126,7 @@ class AuthController extends Controller {
 	 */
 	private function authenticateWith($provider, $socialId)
 	{
-		$socialIdVar = '';
-		switch ($provider)
-		{
-			case 'facebook':
-				$socialIdVar = 'fb_id';
-				break;
-			case 'google':
-				$socialIdVar = 'g_id';
-				break;
-		}
+		$socialIdVar = $this->getSocialIdVar($provider);
 
 		$userFromDb = User::where($socialIdVar, $socialId)->first();
 		if ($userFromDb)
@@ -143,18 +149,15 @@ class AuthController extends Controller {
 	 */
 	private function registerWith($provider, $user)
 	{
-		$socialIdVar = '';
-		switch ($provider)
-		{
-			case 'facebook':
-				$socialIdVar = 'fb_id';
-				break;
-			case 'google':
-				$socialIdVar = 'g_id';
-				break;
+		$socialIdVar = $this->getSocialIdVar($provider);
+
+		$newUser = User::where('email', $user->getEmail())->first();
+		if ($newUser) {
+			session()->flash('flash_message', 'Sellise e-mailiga kasutaja on juba olemas. Palun logige sisse ning seejärel saate profiililt oma kasutaja teenusega '. $provider . ' siduda.');
+			return redirect('home');
 		}
 
-		$newUser = User::firstOrNew(['email' => $user->getEmail()]);
+		$newUser = new User();
 		$newUser->$socialIdVar = $user->getId();
 		$newUser->name = $user->getName();
 		$newUser->email = $user->getEmail();
@@ -163,5 +166,39 @@ class AuthController extends Controller {
 		return;
 	}
 
+	/**
+	 * Connecting user with new social account
+	 * 
+	 * @param  String $provider [Facebook or Google]
+	 * @param  $user [User instance from fb or g]
+	 * @return void
+	 */
+	private function connectWith($provider, $user)
+	{
+		$socialIdVar = $this->getSocialIdVar($provider);
+
+		$loggedUser = Auth::user();
+		$loggedUser->$socialIdVar = $user->getId();
+		$loggedUser->save();
+		return;
+	}
+
+	/**
+	 * Return database variable for social provider
+	 * @param  [string] $provider [facebook or google]
+	 * @return [string]           [social id variable in db]
+	 */
+	private function getSocialIdVar($provider) {
+		switch ($provider)
+		{
+			case 'facebook':
+				return 'fb_id';
+				break;
+			case 'google':
+				return 'g_id';
+				break;
+		}
+		return '';
+	}
 
 }

@@ -21,6 +21,7 @@ Authentication routes
 Route::post('/authenticate', 'Auth\AuthController@authenticate');
 Route::get('auth/social/{provider}', 'Auth\AuthController@redirectToProvider');
 Route::get('auth/socialcallback/{provider}', 'Auth\AuthController@handleProviderCallback');
+Route::delete('auth/social/{provider}', 'Auth\AuthController@disconnect');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
