@@ -91,9 +91,14 @@ class AuthController extends Controller {
 			session()->flash('flash_message', 'Sisse logitud!');
 			return redirect('home');
 		}
-		else
+		else if (Auth::guest())
 		{
 			$this->registerWith($provider, $user);
+			session()->flash('flash_message', 'Teie kasutaja on edukalt registreeritud!');
+			return redirect('profile');
+		}
+		else {
+			$this->connectWith($provider, $user);
 			session()->flash('flash_message', 'Teie kasutaja on edukalt seotud!');
 			return redirect('profile');
 		}
@@ -160,6 +165,32 @@ class AuthController extends Controller {
 		$newUser->email = $user->getEmail();
 		$newUser->save();
 		Auth::loginUsingId($newUser->id);
+		return;
+	}
+
+	/**
+	 * Connecting user with new social account
+	 * 
+	 * @param  String $provider [Facebook or Google]
+	 * @param  $user [User instance from fb or g]
+	 * @return void
+	 */
+	private function connectWith($provider, $user)
+	{
+		$socialIdVar = '';
+		switch ($provider)
+		{
+			case 'facebook':
+				$socialIdVar = 'fb_id';
+				break;
+			case 'google':
+				$socialIdVar = 'g_id';
+				break;
+		}
+
+		$loggedUser = Auth::user();
+		$loggedUser->$socialIdVar = $user->getId();
+		$loggedUser->save();
 		return;
 	}
 
