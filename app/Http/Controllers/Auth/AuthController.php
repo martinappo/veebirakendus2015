@@ -151,7 +151,13 @@ class AuthController extends Controller {
 	{
 		$socialIdVar = $this->getSocialIdVar($provider);
 
-		$newUser = User::firstOrNew(['email' => $user->getEmail()]);
+		$newUser = User::where('email', $user->getEmail())->first();
+		if ($newUser) {
+			session()->flash('flash_message', 'Sellise e-mailiga kasutaja on juba olemas. Palun logige sisse ning seejärel saate profiililt oma kasutaja teenusega '. $provider . ' siduda.');
+			return redirect('home');
+		}
+
+		$newUser = new User();
 		$newUser->$socialIdVar = $user->getId();
 		$newUser->name = $user->getName();
 		$newUser->email = $user->getEmail();
