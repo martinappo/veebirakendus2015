@@ -108,7 +108,7 @@ class AuthController extends Controller {
 	public function disconnect($provider)
 	{
 		$user = Auth::user();
-		$socialIdVar = getSocialIdVar($provider);
+		$socialIdVar = $this->getSocialIdVar($provider);
 		$user->update(array($socialIdVar => ''));
 		session()->flash('flash_message', 'Konto teenusest '. $provider . ' lahti seotud.');
 		return redirect('profile');
@@ -125,7 +125,7 @@ class AuthController extends Controller {
 	 */
 	private function authenticateWith($provider, $socialId)
 	{
-		$socialIdVar = getSocialIdVar($provider);
+		$socialIdVar = $this->getSocialIdVar($provider);
 
 		$userFromDb = User::where($socialIdVar, $socialId)->first();
 		if ($userFromDb)
@@ -148,7 +148,7 @@ class AuthController extends Controller {
 	 */
 	private function registerWith($provider, $user)
 	{
-		$socialIdVar = getSocialIdVar($provider);
+		$socialIdVar = $this->getSocialIdVar($provider);
 
 		$newUser = User::firstOrNew(['email' => $user->getEmail()]);
 		$newUser->$socialIdVar = $user->getId();
@@ -168,7 +168,7 @@ class AuthController extends Controller {
 	 */
 	private function connectWith($provider, $user)
 	{
-		$socialIdVar = getSocialIdVar($provider);
+		$socialIdVar = $this->getSocialIdVar($provider);
 
 		$loggedUser = Auth::user();
 		$loggedUser->$socialIdVar = $user->getId();
