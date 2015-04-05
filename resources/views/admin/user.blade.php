@@ -5,6 +5,8 @@
 		<h1>{{$user->name}}</h1>
 	</div>
 
+	{!! Form::open(['method' => 'PATCH', 'url' => 'admin/users/' .$user->id]) !!}
+
 	<table class="table">
 		<tr>
 			<th>Nimi</th>
@@ -16,26 +18,11 @@
 		</tr>
 		<tr>
 			<th>Roll</th>
-			<td>
-				{!! Form::model($user, ['method' => 'PATCH', 'url' => 'admin/users/' .$user->id]) !!}
-				<div class="input-group">
-					<span class="input-group-btn">
-						{!! Form::submit('Kinnita' , ['class' => 'btn btn-primary']) !!}
-					</span>
-					{!! Form::select('role', array('user'=>'user','admin'=>'admin'), null, ['class' => 'form-control']) !!}
-				</div>
-				{!! Form::close() !!}
-			</td>
+			<td>{!! Form::select('role', array('user'=>'Kasutaja','admin'=>'Administraator'), null, ['class' => 'form-control']) !!}</td>
 		</tr>
 		<tr>
 			<th>Blokeeritud</th>
-			<td>
-				@if ($user->blocked)
-					Jah
-				@else
-					Ei
-				@endif
-			</td>
+			<td>{!! Form::select('blocked', array(0=>'Ei', 1=>'Jah'), null, ['class' => 'form-control']) !!}</td>
 		</tr>
 		<tr>
 			<th>Blokeeringu lõpp</th>
@@ -59,8 +46,11 @@
 			<td>{{ $user->fb_id }}</td>
 		</tr>
 	</table>
+	{!! Form::submit('Kinnita' , ['class' => 'btn btn-primary']) !!}
+	{!! Form::close() !!}
+	<a href="{{ URL::previous() }}"><button class="btn btn-primary btn-mini">Tagasi</button></a>
 	{!! Form::open(['method' => 'DELETE', 'url' => 'admin/users/' .$user->id]) !!}
-		<button type="submit" class="btn btn-danger btn-mini">Delete</button>
+		<button type="submit" class="btn btn-danger btn-mini">Kustuta</button>
 	{!! Form::close() !!}
 
 
