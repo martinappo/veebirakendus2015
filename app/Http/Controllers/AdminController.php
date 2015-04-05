@@ -30,9 +30,11 @@ class AdminController extends Controller {
 	 */
 	public function index()
 	{
+		$allUsers = User::latest()->get();
 		$users = User::latest()->take(3)->get();
+		$allTrainings = Training::latest()->get();
 		$trainings = Training::latest()->notConfirmed()->get();
-		return view('admin.home', compact('users', 'trainings'));
+		return view('admin.home', compact('users', 'trainings', 'allUsers', 'allTrainings'));
 	}
 
 	/**
@@ -161,7 +163,7 @@ class AdminController extends Controller {
 	{
 		$user = User::findOrFail($id);
 		$user->role = Request::input('role');
-		$user->blocked = Request::input('blocked');
+		$user->blocked = Request::input('blocked_until');
 		$user->update();
 		session()->flash('flash_message', 'Kasutaja andmed uuendatud!');
 		return redirect('admin/users');

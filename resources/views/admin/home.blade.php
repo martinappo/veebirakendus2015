@@ -6,9 +6,13 @@
 		<div class="panel-heading">Kasutajad</div>
 
 		<div class="panel-body">
+			Kasutajaid kokku: {{ $allUsers->count() }}<br>
+			Uusimad kasutajad:<br>
 			@foreach ($users as $user)
 				<li>
-					{{ $user->name }}
+					<a href="{{ url('admin/users', array($user->id, 'edit') )}}">
+						{{ $user->name }}
+					</a>
 				</li>
 			@endforeach
 		</div>
@@ -23,7 +27,8 @@
 		<div class="panel-heading">Treeningud</div>
 
 		<div class="panel-body">
-			<small>Kinnitamata</small>
+			Trenne kokku: {{ $allTrainings->count() }}<br>
+			Kinnitamata trenne: {{ $trainings->count() }}<br>
 			@foreach ($trainings as $training)
 				<li>
 					<a href="{{ url('trainings', array($training->id, 'edit') )}}">
