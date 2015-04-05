@@ -41,7 +41,8 @@ class Authenticate {
 			}
 			else
 			{
-				return redirect('trainings');
+				session()->flash('flash_message', 'Te peate olema selleks sisse logitud.');
+				return redirect('home');
 			}
 		}
 

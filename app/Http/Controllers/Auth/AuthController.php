@@ -89,13 +89,17 @@ class AuthController extends Controller {
 		if ($this->authenticateWith($provider, $socialId))
 		{
 			session()->flash('flash_message', 'Sisse logitud!');
-			return redirect('home');
+			return redirect()->back();
 		}
 		else if (Auth::guest())
 		{
-			$this->registerWith($provider, $user);
-			session()->flash('flash_message', 'Teie kasutaja on edukalt registreeritud!');
-			return redirect('profile');
+			if ($this->registerWith($provider, $user))
+			{
+				session()->flash('flash_message', 'Teie kasutaja on edukalt registreeritud!');
+				return redirect('profile');
+			}
+			session()->flash('flash_message', 'Sellise e-mailiga kasutaja on juba olemas. Palun logige sisse ning seejärel saate profiililt oma kasutaja teenusega '. $provider . ' siduda.');
+			return redirect('home');
 		}
 		else {
 			$this->connectWith($provider, $user);
@@ -145,16 +149,14 @@ class AuthController extends Controller {
 	 * 
 	 * @param  String $provider [Facebook or Google]
 	 * @param  $user [User instance from fb or g]
-	 * @return void
+	 * @return boolean
 	 */
 	private function registerWith($provider, $user)
 	{
 		$socialIdVar = $this->getSocialIdVar($provider);
-
 		$newUser = User::where('email', $user->getEmail())->first();
 		if ($newUser) {
-			session()->flash('flash_message', 'Sellise e-mailiga kasutaja on juba olemas. Palun logige sisse ning seejärel saate profiililt oma kasutaja teenusega '. $provider . ' siduda.');
-			return redirect('home');
+			return false;
 		}
 
 		$newUser = new User();
@@ -163,7 +165,7 @@ class AuthController extends Controller {
 		$newUser->email = $user->getEmail();
 		$newUser->save();
 		Auth::loginUsingId($newUser->id);
-		return;
+		return true;
 	}
 
 	/**
