@@ -208,6 +208,8 @@ class AdminController extends Controller {
 				users.fb_id,
 				users.g_id,
 				users.role,
+				users.blocked,
+				users.blocked_until,
 				COUNT(trainings.id) as training_count
 			FROM trainings
 			RIGHT JOIN users

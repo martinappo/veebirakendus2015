@@ -28,6 +28,25 @@
 			</td>
 		</tr>
 		<tr>
+			<th>Blokeeritud</th>
+			<td>
+				@if ($user->blocked)
+					Jah
+				@else
+					Ei
+				@endif
+			</td>
+		</tr>
+		<tr>
+			<th>Blokeeringu lõpp</th>
+			<td>
+				@if ($user->blocked)
+					{{ $user->blocked_until }}
+				@endif
+			</td>
+		</tr>
+
+		<tr>
 			<th>Registreerunud</th>
 			<td>{{ $user->created_at }}</td>
 		</tr>

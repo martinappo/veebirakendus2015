@@ -12,8 +12,9 @@
 			<th>Nimi</th>
 			<th>E-mail</th>
 			<th>Roll</th>
-			<th>Blokeeritud</th>
 			<th>Treeninguid</th>
+			<th>Blokeeritud</th>
+			<th>Blokeeringu lõpp</th>
 		</tr>
 		@foreach ($users as $user)
 			<tr>
@@ -25,6 +26,7 @@
 				</td>
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->role }}</td>
+				<td>{{ $user->training_count }}</td>
 				<td>
 					@if ($user->blocked)
 						Jah
@@ -32,7 +34,12 @@
 						Ei
 					@endif
 				</td>
-				<td>{{ $user->training_count }}</td>
+				<td>
+					@if ($user->blocked)
+						{{ $user->blocked_until }}
+					@endif
+				</td>
+				
 			</tr>
 		@endforeach
 
