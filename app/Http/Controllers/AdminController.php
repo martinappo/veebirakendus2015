@@ -93,6 +93,42 @@ class AdminController extends Controller {
 		return view('admin.users', compact('users'));
 	}
 
+		/**
+	 * Edit users by bulk in trainings list.
+	 * 
+	 * @return Response
+	 */
+	public function usersBulkEdit()
+	{
+		$selectedUsers = array();
+
+		foreach (Request::all() as $key => $item)
+		{
+			if (strcmp($item, 'selected') == 0)
+			{
+				array_push($selectedUsers, $key);
+			}
+		}
+
+		switch (Request::input('action'))
+		{
+			case 'delete':
+				User::destroy($selectedUsers);
+				session()->flash('flash_message', 'Kasutaja(d) kustutatud!');
+				break;
+			case 'block':
+				User::whereIn('id', $selectedUsers)->update(array('blocked' => true));
+				session()->flash('flash_message', 'Blokeering(ud) lisatud!');
+				break;
+			case 'unBlock':
+				User::whereIn('id', $selectedUsers)->update(array('blocked' => false));
+				session()->flash('flash_message', 'Blokeering(ud) eemaldatud!');
+				break;
+		}
+
+		return redirect('admin/users');
+	}
+
 	/**
 	 * Show single user edit page to admin.
 	 * @param  int $id [Id of the user]
