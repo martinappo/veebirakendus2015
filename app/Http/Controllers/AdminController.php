@@ -30,11 +30,11 @@ class AdminController extends Controller {
 	 */
 	public function index()
 	{
-		$allUsers = User::latest()->get();
+		$userCount = User::all()->count();
 		$users = User::latest()->take(3)->get();
-		$allTrainings = Training::latest()->get();
+		$trainingCount = Training::all()->count();
 		$trainings = Training::latest()->notConfirmed()->get();
-		return view('admin.home', compact('users', 'trainings', 'allUsers', 'allTrainings'));
+		return view('admin.home', compact('users', 'trainings', 'userCount', 'trainingCount'));
 	}
 
 	/**
@@ -101,8 +101,7 @@ class AdminController extends Controller {
 	 */
 	public function users()
 	{
-		//$users = User::latest()->get();
-		$users = $this->getUsersWithNrOfTrainigs();
+		$users = $this->getUsersWithInfo();
 		return view('admin.users', compact('users'));
 	}
 
@@ -201,7 +200,7 @@ class AdminController extends Controller {
 	 * Calculates the number of trainings the user have create
 	 * @return array [Array of users with number of trainings]
 	 */
-	private function getUsersWithNrOfTrainigs() {
+	private function getUsersWithInfo() {
 		$usersWithTrainings = array();
 		$usersWithTrainings = DB::select(
 			'SELECT
@@ -213,11 +212,9 @@ class AdminController extends Controller {
 				users.role,
 				users.blocked,
 				users.blocked_until,
-				COUNT(trainings.id) as training_count
-			FROM trainings
-			RIGHT JOIN users
-			ON trainings.user_id=users.id
-			GROUP BY id
+				(SELECT COUNT(*) FROM notifications WHERE users.id = notifications.user_id) as notifications_count,
+				(SELECT COUNT(*) FROM trainings WHERE users.id = trainings.user_id) as training_count
+			FROM users
 		');
 
 		return $usersWithTrainings;

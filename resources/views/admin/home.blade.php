@@ -6,7 +6,7 @@
 		<div class="panel-heading">Kasutajad</div>
 
 		<div class="panel-body">
-			Kasutajaid kokku: {{ $allUsers->count() }}<br>
+			Kasutajaid kokku: {{ $userCount }}<br>
 			Uusimad kasutajad:<br>
 			@foreach ($users as $user)
 				<li>
@@ -27,7 +27,7 @@
 		<div class="panel-heading">Treeningud</div>
 
 		<div class="panel-body">
-			Trenne kokku: {{ $allTrainings->count() }}<br>
+			Trenne kokku: {{ $trainingCount }}<br>
 			Kinnitamata trenne: {{ $trainings->count() }}<br>
 			@foreach ($trainings as $training)
 				<li>

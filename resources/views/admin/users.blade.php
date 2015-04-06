@@ -13,6 +13,7 @@
 			<th>E-mail</th>
 			<th>Roll</th>
 			<th>Treeninguid</th>
+			<th>Lugemata teateid</th>
 			<th>Blokeeritud</th>
 			<th>Blokeeringu lõpp</th>
 		</tr>
@@ -27,6 +28,7 @@
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->role }}</td>
 				<td>{{ $user->training_count }}</td>
+				<td>{{ $user->notifications_count }}</td>
 				<td>
 					@if ($user->blocked)
 						Jah
