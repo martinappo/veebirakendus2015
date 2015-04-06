@@ -95,7 +95,7 @@ class TrainingsController extends Controller {
 	public function update($id, TrainingRequest $request)
 	{
 		$training = Training::findOrFail($id);
-		$currentStatus = $training->confirmed;
+		$oldStatus = $training->confirmed;
 
 		$isAdmin = Auth::user()->isAdmin();
 		if (!$isAdmin)
@@ -116,13 +116,9 @@ class TrainingsController extends Controller {
 
 		session()->flash('flash_message', 'Treening uuendatud!');
 
-		//Add notification to user about changing training status.
 		if ($isAdmin)
 		{
-			if (!$currentStatus && $training->confirmed || true)
-			{
-				$this->addNotification($training);
-			}
+			$this->addNotifications($oldStatus, $training);
 			return redirect('admin/trainings');
 		}
 
@@ -353,15 +349,36 @@ class TrainingsController extends Controller {
 
 	/**
 	 * Adds notification about the training.
-	 * @param [type] $training [description]
+	 * @param string $training [which training is edited]
+	 * @param string $message [what is the message of notification]
 	 */
-	private function addNotification($training)
+	private function addNotification($training, $message)
 	{
 		$owner = $training->user()->first();
 		$notification = new Notification();
 		$notification->title = 'Treeningut muudetud!';
-		$notification->content = 'Administraator muutis teie treeningut: '. $training->title . '.';
+		$notification->content = $message;
 		$owner->notifications()->save($notification);
+	}
+
+	/**
+	 * Determine which notification to add and then add it
+	 * @param [boolean] $oldStatus [previous status of training]
+	 * @param [training] $training  [edited training]
+	 */
+	private function addNotifications($oldStatus, $training) {
+		if (!$oldStatus && $training->confirmed)
+		{
+			$message = 'Administraator kinnitas teie treeningu: '. $training->title . '.';
+		}
+		elseif ($oldStatus && !$training->confirmed)
+		{
+			$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
+		}
+		else {
+			$message = 'Administraator muutis teie treeningut: '. $training->title . '.';
+		}
+		$this->addNotification($training, $message);
 	}
 
 }

@@ -69,15 +69,24 @@ class AdminController extends Controller {
 		switch (Request::input('action'))
 		{
 			case 'delete':
-				Training::destroy($selectedTrainings);
+				foreach ($selectedTrainings as $training)
+				{
+					Training::destroy($training);
+					$message = 'Administraator kustutas teie lisatud treeningu: '. $training->title . '.';
+					$this->addNotification($training, $message);
+				}
 				session()->flash('flash_message', 'Treening(ud) kustutatud!');
 				break;
 			case 'confirm':
 				foreach ($selectedTrainings as $training)
 				{
 					$training = Training::find($training);
-					$training->update(array('confirmed' => true));
-					$this->addNotification($training);
+					if (!$training->confirmed)
+					{
+						$training->update(array('confirmed' => true));
+						$message = 'Administraator kinnitas teie treeningu: '. $training->title . '.';
+						$this->addNotification($training, $message);
+					}
 				}
 				session()->flash('flash_message', 'Treening(ud) kinnitatud!');
 				break;
@@ -85,13 +94,16 @@ class AdminController extends Controller {
 				foreach ($selectedTrainings as $training)
 				{
 					$training = Training::find($training);
-					$training->update(array('confirmed' => true));
-					$this->addNotification($training);
+					if ($training->confirmed)
+					{
+						$training->update(array('confirmed' => true));
+						$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
+						$this->addNotification($training, $message);
+					}
 				}
 				session()->flash('flash_message', 'Kinnitus eemaldatud!');
 				break;
 		}
-
 		return redirect('admin/trainings');
 	}
 
@@ -245,14 +257,15 @@ class AdminController extends Controller {
 
 	/**
 	 * Adds notification about the training.
-	 * @param $training
+	 * @param string $training [which training is edited]
+	 * @param string $message [what is the message of notification]
 	 */
-	private function addNotification($training)
+	private function addNotification($training, $message)
 	{
 		$owner = $training->user()->first();
 		$notification = new Notification();
 		$notification->title = 'Treeningut muudetud!';
-		$notification->content = 'Administraator muutis teie treeningut: '. $training->title . '.';
+		$notification->content = $message;
 		$owner->notifications()->save($notification);
 	}
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Validator;
 use App\Training;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		view()->composer('partials.notifications', function($view)
+		{
+			$view->with('notifications', Auth::user()->notifications()->latest()->get());
+		});
 	}
 
 	/**
@@ -31,7 +35,6 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
 		);
-
 	}
 
 }

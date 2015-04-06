@@ -42,6 +42,8 @@ class UserController extends Controller {
 		return redirect('home');
 	}
 
+	//Users notifications =================================================
+
 	/**
 	 * Get users notifications
 	 * @param 
@@ -49,7 +51,19 @@ class UserController extends Controller {
 	 */
 	public function notifications()
 	{
-		return view('partials.notifications');
+		$notifications = Auth::user()->notifications()->latest()->get();
+		return view('partials.notifications', compact('notifications'));
+	}
+
+	/**
+	 * Delete a notification
+	 * @param 
+	 * @return Response
+	 */
+	public function destroyNotification($id)
+	{
+		Notification::destroy($id);
+		return response()->json('success', 200);
 	}
 
 }
