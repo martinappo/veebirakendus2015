@@ -71,8 +71,9 @@ class AdminController extends Controller {
 			case 'delete':
 				foreach ($selectedTrainings as $training)
 				{
-					Training::destroy($training);
+					$training = Training::find($training);
 					$message = 'Administraator kustutas teie lisatud treeningu: '. $training->title . '.';
+					$training->delete();
 					$this->addNotification($training, $message);
 				}
 				session()->flash('flash_message', 'Treening(ud) kustutatud!');
