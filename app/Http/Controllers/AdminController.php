@@ -114,8 +114,32 @@ class AdminController extends Controller {
 	 */
 	public function users()
 	{
-		$users = $this->getUsersWithInfo();
+		$users = $this->getUsersWithInfo('users.id','DESC');
 		return view('admin.users', compact('users'));
+	}
+
+	/**
+	 * Sort users by attribute.
+	 * @return Response
+	 */
+	public function sortUsers()
+	{
+		$users = array();
+		switch (Request::input('id'))
+		{
+			case 'sort-name':
+				if (strcmp(Request::input('dir'), 'up') == 0)
+				{
+					$users = $this->getUsersWithInfo('users.name','ASC');
+				}
+				else
+				{
+					$users = $this->getUsersWithInfo('users.name','DESC');
+				}
+				break;
+		}
+
+		return view('partials.users-list', compact('users'));
 	}
 
 		/**
@@ -213,7 +237,7 @@ class AdminController extends Controller {
 	 * Calculates the number of trainings the user have create
 	 * @return array [Array of users with number of trainings]
 	 */
-	private function getUsersWithInfo() {
+	private function getUsersWithInfo($sortBy, $direction) {
 		$usersWithTrainings = array();
 		$usersWithTrainings = DB::select(
 			'SELECT
@@ -227,8 +251,8 @@ class AdminController extends Controller {
 				users.blocked_until,
 				(SELECT COUNT(*) FROM notifications WHERE users.id = notifications.user_id) as notifications_count,
 				(SELECT COUNT(*) FROM trainings WHERE users.id = trainings.user_id) as training_count
-			FROM users
-		');
+			FROM users ORDER BY '.$sortBy.' '.$direction
+		);
 
 		return $usersWithTrainings;
 	}
