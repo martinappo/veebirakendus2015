@@ -97,7 +97,7 @@ class AdminController extends Controller {
 					$training = Training::find($training);
 					if ($training->confirmed)
 					{
-						$training->update(array('confirmed' => true));
+						$training->update(array('confirmed' => false));
 						$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
 						$this->addNotification($training, $message);
 					}
