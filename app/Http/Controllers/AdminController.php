@@ -2,7 +2,7 @@
 
 use App\User;
 use App\Training;
-use App\Notification;
+use App\Http\Repositories\NotificationsRepository;
 use App\Tag;
 use App\Http\Requests;
 use App\Http\Requests\TrainingRequest;
@@ -13,12 +13,20 @@ use DB;
 class AdminController extends Controller {
 
 	/**
+	 * The repository of notifications. We can add and remove notifications
+	 * through this.
+	 * @var [NotificationsRepository]
+	 */
+	protected $notificationsRepo;
+
+	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(NotificationsRepository $notificationsRepo)
 	{
+		$this->notificationsRepo = $notificationsRepo;
 		$this->middleware('auth');
 		$this->middleware('admin');
 	}
@@ -74,7 +82,7 @@ class AdminController extends Controller {
 					$training = Training::find($training);
 					$message = 'Administraator kustutas teie lisatud treeningu: '. $training->title . '.';
 					$training->delete();
-					$this->addNotification($training, $message);
+					$this->notificationsRepo->create($training->user()->first(), 'Treening kustutatud', $message);
 				}
 				session()->flash('flash_message', 'Treening(ud) kustutatud!');
 				break;
@@ -86,7 +94,7 @@ class AdminController extends Controller {
 					{
 						$training->update(array('confirmed' => true));
 						$message = 'Administraator kinnitas teie treeningu: '. $training->title . '.';
-						$this->addNotification($training, $message);
+						$this->notificationsRepo->create($training->user()->first(), 'Treening kinnitatud', $message);
 					}
 				}
 				session()->flash('flash_message', 'Treening(ud) kinnitatud!');
@@ -99,7 +107,7 @@ class AdminController extends Controller {
 					{
 						$training->update(array('confirmed' => false));
 						$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
-						$this->addNotification($training, $message);
+						$this->notificationsRepo->create($training->user()->first(), 'Treeningut muudetud', $message);
 					}
 				}
 				session()->flash('flash_message', 'Kinnitus eemaldatud!');
@@ -278,20 +286,6 @@ class AdminController extends Controller {
 		');
 
 		return $trainingsWithUser;
-	}
-
-	/**
-	 * Adds notification about the training.
-	 * @param string $training [which training is edited]
-	 * @param string $message [what is the message of notification]
-	 */
-	private function addNotification($training, $message)
-	{
-		$owner = $training->user()->first();
-		$notification = new Notification();
-		$notification->title = 'Treeningut muudetud!';
-		$notification->content = $message;
-		$owner->notifications()->save($notification);
 	}
 
 }

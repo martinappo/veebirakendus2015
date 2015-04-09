@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Training;
-use App\Notification;
+use App\Http\Repositories\NotificationsRepository;
 use App\Tag;
 use App\TrainingFile;
 use App\Http\Requests;
@@ -18,10 +18,18 @@ use Response;
 class TrainingsController extends Controller {
 
 	/**
+	 * The repository of notifications. We can add and remove notifications
+	 * through this.
+	 * @var [NotificationsRepository]
+	 */
+	protected $notificationsRepo;
+
+	/**
 	 * Create a new trainings controller
 	 */
-	public function __construct()
+	public function __construct(NotificationsRepository $notificationsRepo)
 	{
+		$this->notificationsRepo = $notificationsRepo;
 		$this->middleware('auth', ['except' => array('index', 'trainingsForMap', 'search') ]);
 		$this->middleware('trainingOwner', ['only' => array('edit','update') ]);
 	}
@@ -347,19 +355,6 @@ class TrainingsController extends Controller {
 		return $error;
 	}
 
-	/**
-	 * Adds notification about the training.
-	 * @param string $training [which training is edited]
-	 * @param string $message [what is the message of notification]
-	 */
-	private function addNotification($training, $message)
-	{
-		$owner = $training->user()->first();
-		$notification = new Notification();
-		$notification->title = 'Treeningut muudetud!';
-		$notification->content = $message;
-		$owner->notifications()->save($notification);
-	}
 
 	/**
 	 * Determine which notification to add and then add it
@@ -367,18 +362,25 @@ class TrainingsController extends Controller {
 	 * @param [training] $training  [edited training]
 	 */
 	private function addNotifications($oldStatus, $training) {
+		$title = '';
+		$message = '';
+
 		if (!$oldStatus && $training->confirmed)
 		{
+			$title = 'Treening kinnitatud!';
 			$message = 'Administraator kinnitas teie treeningu: '. $training->title . '.';
 		}
 		elseif ($oldStatus && !$training->confirmed)
 		{
+			$title = 'Treeningut muudetud!';
 			$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
 		}
 		else {
+			$title = 'Treeningut muudetud!';
 			$message = 'Administraator muutis teie treeningut: '. $training->title . '.';
 		}
-		$this->addNotification($training, $message);
+
+		$this->notificationsRepo->create($training->user()->first(), $title, $message);
 	}
 
 }

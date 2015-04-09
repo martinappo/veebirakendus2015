@@ -18,6 +18,8 @@ class AppServiceProvider extends ServiceProvider {
 		{
 			$view->with('notifications', Auth::user()->notifications()->latest()->get());
 		});
+
+		$this->bootRepositories();
 	}
 
 	/**
@@ -35,6 +37,11 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
 		);
+	}
+
+	public function bootRepositories()
+	{
+		$this->app->bind('App\Http\Repositories\NotificationsRepository', 'App\Http\Repositories\NotificationsRepositoryEloquent');
 	}
 
 }
