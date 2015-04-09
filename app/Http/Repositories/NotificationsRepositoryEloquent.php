@@ -37,6 +37,24 @@ class NotificationsRepositoryEloquent implements NotificationsRepository
 	}
 
 	/**
+	 * Creating a new notification for many users
+	 * @param  [object]   $users    [The users whose notification it is]
+	 * @param  [string] $title   [Title of the notif.]
+	 * @param  [string] $message [Message of the notif.]
+	 * @return [boolean]          [saved notifications]
+	 */
+	public function createMany($users, $title, $message)
+	{
+		foreach ($users as $user){
+			$this->notificationsModel->title = $title;
+			$this->notificationsModel->content = $message;
+			$user->notifications()->save($this->notificationsModel);
+		}
+
+		return true;
+	}
+
+	/**
 	 * Deletes notification from db
 	 * @param  [int] $id [id of the notification]
 	 * @return [bool]     [Success]

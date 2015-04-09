@@ -7,5 +7,7 @@ interface NotificationsRepository
 
 	public function create(User $user, $title, $message);
 
+	public function createMany($users, $title, $message);
+
 	public function destroy($id);
 }

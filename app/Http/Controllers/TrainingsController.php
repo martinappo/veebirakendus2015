@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Training;
+use App\User;
 use App\Http\Repositories\NotificationsRepository;
 use App\Tag;
 use App\TrainingFile;
@@ -74,6 +75,12 @@ class TrainingsController extends Controller {
 
 		$tags = Tag::lists('name', 'id');
 
+		if (!Auth::user()->isAdmin())
+		{
+			$message = 'Kasutaja ' . Auth::user()->name . ' lisas uue treeningu, mis tuleb üle vaadata: ' . $training->title;
+			$this->notificationsRepo->createMany(User::where('role', 'admin')->get(), 'Uus treening lisatud!', $message);
+		}
+
 		return view('trainings.edit', compact('training', 'tags'));
 	}
 
@@ -109,6 +116,8 @@ class TrainingsController extends Controller {
 		if (!$isAdmin)
 		{
 			$training->confirmed = false;
+			$message = 'Kasutaja ' . Auth::user()->name . ' muutis treeningut, mis tuleb üle vaadata: ' . $training->title;
+			$this->notificationsRepo->createMany(User::where('role', 'admin')->get(), 'Treeningut muudetud!', $message);
 		}
 
 		$training->update($request->all());

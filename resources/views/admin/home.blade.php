@@ -46,10 +46,26 @@
 
 <div class="col-md-4">
 	<div class="panel panel-default">
-		<div class="panel-heading">Kommentaarid</div>
+		<div class="panel-heading">Teavitused</div>
 
 		<div class="panel-body">
-			
+			@if ($notifications->count())
+				@foreach ($notifications as $notification)
+						<h4>{{ $notification->title }}</h4>
+						<p>{{ $notification->content }}</p>
+						<div class="clearfix">
+							<small class="pull-right">{{ date("d.m.Y, h:i", strtotime($notification->updated_at)) }}</small>
+						</div>
+						<hr>
+				@endforeach
+
+			@else
+				<div class="col-md-12">
+					<hr>
+					<p>Teavitused puuduvad.</p>
+					<hr>
+				</div>
+			@endif
 		</div>
 	</div>
 </div>

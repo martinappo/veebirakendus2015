@@ -9,6 +9,7 @@ use App\Http\Requests\TrainingRequest;
 use Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Auth;
 
 class AdminController extends Controller {
 
@@ -42,7 +43,8 @@ class AdminController extends Controller {
 		$users = User::latest()->take(3)->get();
 		$trainingCount = Training::all()->count();
 		$trainings = Training::latest()->notConfirmed()->get();
-		return view('admin.home', compact('users', 'trainings', 'userCount', 'trainingCount'));
+		$notifications = Auth::user()->notifications()->latest()->get();
+		return view('admin.home', compact('users', 'trainings', 'userCount', 'trainingCount', 'notifications'));
 	}
 
 	/**
@@ -82,7 +84,10 @@ class AdminController extends Controller {
 					$training = Training::find($training);
 					$message = 'Administraator kustutas teie lisatud treeningu: '. $training->title . '.';
 					$training->delete();
-					$this->notificationsRepo->create($training->user()->first(), 'Treening kustutatud', $message);
+					if (!$training->user()->first()->isAdmin())
+					{
+						$this->notificationsRepo->create($training->user()->first(), 'Treening kustutatud', $message);
+					}
 				}
 				session()->flash('flash_message', 'Treening(ud) kustutatud!');
 				break;
@@ -93,8 +98,11 @@ class AdminController extends Controller {
 					if (!$training->confirmed)
 					{
 						$training->update(array('confirmed' => true));
-						$message = 'Administraator kinnitas teie treeningu: '. $training->title . '.';
-						$this->notificationsRepo->create($training->user()->first(), 'Treening kinnitatud', $message);
+						if (!$training->user()->first()->isAdmin())
+						{
+							$message = 'Administraator kinnitas teie treeningu: '. $training->title . '.';
+							$this->notificationsRepo->create($training->user()->first(), 'Treening kinnitatud', $message);
+						}
 					}
 				}
 				session()->flash('flash_message', 'Treening(ud) kinnitatud!');
@@ -106,8 +114,11 @@ class AdminController extends Controller {
 					if ($training->confirmed)
 					{
 						$training->update(array('confirmed' => false));
-						$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
-						$this->notificationsRepo->create($training->user()->first(), 'Treeningut muudetud', $message);
+						if (!$training->user->first()->isAdmin())
+						{
+							$message = 'Administraator eemaldas teie treeningult kinnituse: '. $training->title . '.';
+							$this->notificationsRepo->create($training->user()->first(), 'Treeningut muudetud', $message);
+						}
 					}
 				}
 				session()->flash('flash_message', 'Kinnitus eemaldatud!');
