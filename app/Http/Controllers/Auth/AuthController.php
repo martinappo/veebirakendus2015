@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\NotificationsRepository;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -27,17 +28,24 @@ class AuthController extends Controller {
 	use AuthenticatesAndRegistersUsers;
 
 	/**
+	 * The repository of notifications. We can add and remove notifications
+	 * through this.
+	 * @var [NotificationsRepository]
+	 */
+	protected $notificationsRepo;
+
+	/**
 	 * Create a new authentication controller instance.
 	 *
 	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
 	 * @param  \Illuminate\Contracts\Auth\Registrar  $registrar
 	 * @return void
 	 */
-	public function __construct(Guard $auth, Registrar $registrar)
+	public function __construct(Guard $auth, Registrar $registrar, NotificationsRepository $notificationsRepo)
 	{
 		$this->auth = $auth;
 		$this->registrar = $registrar;
-
+		$this->notificationsRepo = $notificationsRepo;
 		$this->middleware('guest', ['only' => 'authenticate']);
 	}
 
@@ -165,6 +173,10 @@ class AuthController extends Controller {
 		$newUser->email = $user->getEmail();
 		$newUser->save();
 		Auth::loginUsingId($newUser->id);
+
+		$message = 'Registreerus uus kasutaja: ' . $newUser->name;
+		$this->notificationsRepo->createMany(User::where('role', 'admin')->get(), 'Uus kasutaja!', $message);
+
 		return true;
 	}
 
