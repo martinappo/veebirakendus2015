@@ -243,23 +243,39 @@ class TrainingsController extends Controller {
 	public function search()
 	{
 		$tags = Request::input('tag_list');
-		if (empty($tags)) {
+		if (empty($tags))
+		{
 			return Response::json('empty', 400);
 		}
 		$realTags = array();
 		$userKeywords = array();
 
 		//Separating already existing tags from user keywords
-		foreach ($tags as $key => $tag){
-			if (is_numeric($tag) && Tag::find($tag)) {
+		foreach ($tags as $key => $tag)
+		{
+			if (is_numeric($tag) && Tag::find($tag))
+			{
 				$realTags[] = $tag;
 			}
-			else {
+			else
+			{
 				$userKeywords[] = $tag;
 			}
 		}
 
-		$trainings = Training::tagsSearch($realTags)->keywordSearch($userKeywords)->get();
+		//Special case: if sorting by accuracy of keywords:
+		if ( strcmp(Request::input('what'), 'none') == 0 )
+		{
+			$trainings = Training::tagsSearch($realTags)->
+				keywordSearch($userKeywords)->
+				orderBy(DB::raw('count(*)'), Request::input('direction'))->get();
+		}
+		else
+		{
+			$trainings = Training::tagsSearch($realTags)->
+				keywordSearch($userKeywords)->
+				orderBy(Request::input('what'), Request::input('direction'))->get();
+		}
 
 		return view('partials.trainings-list', compact('trainings'));
 	}
@@ -283,12 +299,15 @@ class TrainingsController extends Controller {
 			If the value is numerical then check if it's an id of a tag
 			Then we save it to database and sync it with id.
 		 */
-		foreach ($tags as $key => $tag){
-			if ( ! is_numeric($tag)) {
+		foreach ($tags as $key => $tag)
+		{
+			if ( ! is_numeric($tag))
+			{
 				$tagId = $this->createTag($tag);
 				$tags[$key] = (string)$tagId;
 			}
-			elseif ( ! Tag::find($tag)) {
+			elseif ( ! Tag::find($tag))
+			{
 				$tagId = $this->createTag($tag);
 				$tags[$key] = (string)$tagId;
 			}

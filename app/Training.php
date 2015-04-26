@@ -68,8 +68,7 @@ class Training extends Model {
 		$query
 			->join('tag_training', 'tag_training.training_id', '=', 'trainings.id')
 			->whereIn('tag_training.tag_id', $tags)
-			->groupBy('trainings.id')
-			->orderBy(DB::raw('count(*)'), 'desc');
+			->groupBy('trainings.id');
 	}
 
 	/**
