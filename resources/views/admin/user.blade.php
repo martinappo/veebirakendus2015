@@ -24,11 +24,27 @@
 			</tr>
 			<tr>
 				<th>Roll</th>
-				<td>{!! Form::select('role', array('user'=>'Kasutaja','admin'=>'Administraator'), null, ['class' => 'form-control']) !!}</td>
+				<td>
+					@if ($user->role == 'user')
+						Kasutaja
+					@elseif ($user->role == 'admin')
+						Administraator
+					@else
+						Tundmatu
+					@endif
+					{!! Form::select('role', array('user'=>'Kasutaja','admin'=>'Administraator'), null, ['class' => 'form-control']) !!}
+				</td>
 			</tr>
 			<tr>
 				<th>Blokeeritud</th>
-				<td>{!! Form::select('blocked', array(0=>'Ei', 1=>'Jah'), null, ['class' => 'form-control']) !!}</td>
+				<td>
+					@if ($user->blocked)
+						Jah
+					@else
+						Ei
+					@endif
+					{!! Form::select('blocked', array(0=>'Ei', 1=>'Jah'), null, ['class' => 'form-control']) !!}
+				</td>
 			</tr>
 			<tr>
 				<th>Blokeeringu lõpp</th>
@@ -36,6 +52,15 @@
 					@if ($user->blocked)
 						{{ $user->blocked_until }}
 					@endif
+				</td>
+			</tr>
+			<tr>
+				<th>Blokeeringu põhjus</th>
+				<td>
+					@if ($user->blocked)
+						{{ $user->block_reason }}
+					@endif
+					{!! Form::text('block_reason', null, ['class' => 'form-control']) !!}
 				</td>
 			</tr>
 

@@ -38,6 +38,11 @@
 			<a href="users/sort" id="users.blocked_until" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
 			<a href="users/sort" id="users.blocked_until" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
 		</th>
+		<th>
+			Blokeeringu põhjus
+			<a href="users/sort" id="users.block_reason" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="users.block_reason" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
 	</tr>
 	@foreach ($users as $user)
 		<tr>
@@ -48,7 +53,15 @@
 				</a>
 			</td>
 			<td>{{ $user->email }}</td>
-			<td>{{ $user->role }}</td>
+			<td>
+				@if ($user->role == 'user')
+					Kasutaja
+				@elseif ($user->role == 'admin')
+					Administraator
+				@else
+					Tundmatu
+				@endif
+			</td>
 			<td>{{ $user->training_count }}</td>
 			<td>{{ $user->notifications_count }}</td>
 			<td>
@@ -61,6 +74,11 @@
 			<td>
 				@if ($user->blocked)
 					{{ $user->blocked_until }}
+				@endif
+			</td>
+			<td>
+				@if ($user->blocked)
+					{{ $user->block_reason }}
 				@endif
 			</td>
 			

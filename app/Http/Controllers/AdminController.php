@@ -66,7 +66,7 @@ class AdminController extends Controller {
 	public function sortTrainings()
 	{
 		$trainings = array();
-		$trainings = $this->getTrainingsWithUsers(Request::input('id'), Request::input('dir'));
+			$trainings = $this->getTrainingsWithUsers(Request::input('id'), Request::input('dir'));
 		return view('partials.admin-trainings-list', compact('trainings'));
 	}
 
@@ -216,7 +216,8 @@ class AdminController extends Controller {
 	{
 		$user = User::findOrFail($id);
 		$user->role = Request::input('role');
-		$user->blocked = Request::input('blocked_until');
+		$user->blocked = Request::input('blocked');
+		$user->block_reason = Request::input('block_reason');
 		$user->update();
 		session()->flash('flash_message', 'Kasutaja andmed uuendatud!');
 		return redirect('admin/users');
@@ -266,6 +267,7 @@ class AdminController extends Controller {
 				users.role,
 				users.blocked,
 				users.blocked_until,
+				users.block_reason,
 				(SELECT COUNT(*) FROM notifications WHERE users.id = notifications.user_id) as notifications_count,
 				(SELECT COUNT(*) FROM trainings WHERE users.id = trainings.user_id) as training_count
 			FROM users ORDER BY '.$sortBy.' '.$direction
