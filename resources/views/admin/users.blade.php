@@ -3,6 +3,9 @@
 	<div class="page-header">
 		<h1>Kasutajad</h1>
 	</div>
+
+	{!! Form::open(['method' => 'POST', 'url' => 'admin/users/bulkedit']) !!}
+
 	<div id="users-list">
 		@include("partials.users-list")
 	</div>
@@ -16,6 +19,8 @@
 			{!! Form::submit('Kinnita tegevus' , ['class' => 'form-control btn btn-primary']) !!}
 		</div>
 	</div>
+
+	{!! Form::close() !!}
 
 @stop
 

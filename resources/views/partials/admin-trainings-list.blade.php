@@ -1,5 +1,3 @@
-{!! Form::open(['method' => 'POST', 'url' => 'admin/trainings/bulkedit']) !!}
-
 <table class="table">
 	<tr>
 		<th>Valitud</th>
@@ -52,5 +50,3 @@
 		</tr>
 	@endforeach
 </table>
-
-{!! Form::close() !!}

@@ -12,6 +12,8 @@
 			</h3>
 		</div><!-- panel heading -->
 
+		{!! Form::open(['method' => 'POST', 'url' => 'admin/trainings/bulkedit']) !!}
+
 		<div id="admin-trainings-list">
 			@include("partials.admin-trainings-list")
 		</div>
@@ -25,6 +27,9 @@
 				{!! Form::submit('Kinnita tegevus' , ['class' => 'form-control btn btn-primary']) !!}
 			</div>
 		</div>
+
+		{!! Form::close() !!}
+
 	</div>
 
 	<div class="panel panel-default">
