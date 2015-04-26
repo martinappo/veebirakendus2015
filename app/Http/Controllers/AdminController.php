@@ -217,6 +217,7 @@ class AdminController extends Controller {
 		$user = User::findOrFail($id);
 		$user->role = Request::input('role');
 		$user->blocked = Request::input('blocked');
+		$user->blocked_until = Request::input('blocked_until');
 		$user->block_reason = Request::input('block_reason');
 		$user->update();
 		session()->flash('flash_message', 'Kasutaja andmed uuendatud!');

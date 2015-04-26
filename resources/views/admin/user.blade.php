@@ -52,6 +52,7 @@
 					@if ($user->blocked)
 						{{ $user->blocked_until }}
 					@endif
+					{!! Form::input('datetime-local', 'blocked_until') !!}
 				</td>
 			</tr>
 			<tr>
