@@ -54,3 +54,4 @@ Route::get('/profile', 'UserController@index');
 Route::delete('/profile','UserController@destroyUser');
 Route::get('/notifications', 'UserController@notifications');
 Route::delete('/notification/{id}', 'UserController@destroyNotification');
+Route::post('/rate/{id}', 'UserController@rateTraining');

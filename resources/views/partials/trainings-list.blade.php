@@ -2,9 +2,18 @@
 	@foreach($trainings as $training)
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">
+				<h3 class="panel-title pull-left">
 					{{ $training->title }}
 				</h3>
+				<div class="pull-right">
+					<span class="small">
+						Hinne:
+					</span>
+					<span class="badge">
+						{{ $training->getAverageRating() }}
+					</span>
+				</div>
+				<div class="clearfix"></div>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-3 col-sm-4">
@@ -18,11 +27,20 @@
 					<p><b>Aadress:</b> {{ $training->aadress }}</p>
 					<p><b>Kirjeldus:</b> {{ $training->description }}</p>
 					<p><b>Postitaja:</b> {{ $training->user->name }}</p>
-					@foreach ($training->tags as $tag)
-						<div class="badge">
-							{{ $tag->name }}
+					<div class="row">
+						<div class="col-md-6">
+							@foreach ($training->tags as $tag)
+								<div class="badge">
+									{{ $tag->name }}
+								</div>
+							@endforeach
 						</div>
-					@endforeach
+						<div class="col-md-6">
+							<div class="pull-right" id="rate-{{ $training->id }}">
+								@include('partials.trainings-rate')
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

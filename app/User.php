@@ -39,6 +39,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * A user can have many ratings
+	*/
+	public function ratings() {
+		return $this->hasMany('App\Rating');
+	}
+
+	/**
 	 * A user can have many notifications
 	*/
 	public function notifications() {

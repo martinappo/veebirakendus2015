@@ -23,3 +23,29 @@ if ($('#search-trainings').length){
 		});
 	});
 }
+
+if ($('.rate').length){
+	$('body').on('click', '.rate', function(event){
+		startLoading();
+		event.preventDefault();
+		var trainingId = $(this).attr('id');
+
+		jQuery.ajax({
+			type: 'POST',
+			url: 'rate/' + trainingId,
+			data: {
+				_token: $('input[name="_token"]').val(),
+				value: $(this).html()
+			},
+			success: function(data) {
+				stopLoading();
+				$('#rate-' + trainingId).html(data);
+			},
+			error: function(data) {
+				stopLoading();
+				console.error('Error in rating a training');
+				console.log(data.responseJSON);
+			}
+		});
+	});
+}

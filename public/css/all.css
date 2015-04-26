@@ -6296,4 +6296,13 @@ nav.navbar {
 #notifications {
 	width: 300px;
 }
+
+.rate {
+	cursor: pointer;
+}
+
+.rate.active, .rate:hover {
+	color:  #fff;
+	border: solid 2px #222;
+}
 /*# sourceMappingURL=all.css.map */

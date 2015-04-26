@@ -95,6 +95,13 @@ class Training extends Model {
 	}
 
 	/**
+	 * A training can have many ratings
+	*/
+	public function ratings() {
+		return $this->hasMany('App\Rating');
+	}
+
+	/**
 	* Check if user is owner of the training
 	*/
 	public function isTheOwner($user) {
@@ -107,6 +114,21 @@ class Training extends Model {
 	*/
 	public function getTagListAttribute() {
 		return $this->tags->lists('id');
+	}
+
+	/**
+	* Get training's average rating
+	* @return float
+	*/
+	public function getAverageRating() {
+		$average = 0;
+		$ratings =  $this->ratings->lists('value');
+
+		if (count($ratings))
+		{
+			$average = array_sum($ratings) / count($ratings);
+		}
+		return $average;
 	}
 
 }

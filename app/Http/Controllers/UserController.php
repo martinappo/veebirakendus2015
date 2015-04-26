@@ -2,6 +2,10 @@
 
 use App\Notification;
 use Auth;
+use App\Rating;
+use App\Training;
+use App\Http\Requests;
+use Request;
 
 class UserController extends Controller {
 
@@ -64,6 +68,25 @@ class UserController extends Controller {
 	{
 		Notification::destroy($id);
 		return response()->json('success', 200);
+	}
+
+	//User->trainings ratings ==============================================
+
+	/**
+	 * Add a rating to a training
+	 * @param  [int] $id [training id]
+	 * @return Response
+	 */
+	public function rateTraining($id)
+	{
+		$rating = Rating::firstOrNew(['training_id' => $id, 'user_id' => Auth::user()->id]);
+		$rating->value = Request::input('value');
+		$rating->training_id = $id;
+		Auth::user()->ratings()->save($rating);
+
+		$training = Training::findOrFail($id);
+
+		return view('partials.trainings-rate', compact('training'));
 	}
 
 }
