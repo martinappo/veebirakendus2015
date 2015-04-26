@@ -1,4 +1,4 @@
-if ($('#users-list').length){
+if ($('#admin-trainings-list').length){
 	$('body').on('click', '.sort', function(event){
 		startLoading();
 		event.preventDefault();
@@ -12,11 +12,11 @@ if ($('#users-list').length){
 			},
 			success: function(data) {
 				stopLoading();
-				$('#users-list').html(data);
+				$('#admin-trainings-list').html(data);
 			},
 			error: function(data) {
 				stopLoading();
-				console.error('Error in sorting users');
+				console.error('Error in sorting trainings');
 				console.log(data.responseJSON);
 			}
 		});

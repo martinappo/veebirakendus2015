@@ -12,40 +12,9 @@
 			</h3>
 		</div><!-- panel heading -->
 
-		{!! Form::open(['method' => 'POST', 'url' => 'admin/trainings/bulkedit']) !!}
-
-		<table class="table">
-			<tr>
-				<th>Valitud</th>
-				<th>Nimi</th>
-				<th>Kirjeldus</th>
-				<th>Aadress</th>
-				<th>Kinnitatud</th>
-				<th>Omanik</th>
-			</tr>
-			@foreach ($trainings as $training)
-				<tr>
-					<td>{!! Form::checkbox($training->id, 'selected', false) !!}</td>
-					<td>
-						<a href="{{ url('trainings', array($training->id, 'edit') )}}">
-							{{ $training->title }}
-						</a>
-					</td>
-					<td>{{ $training->description }}</td>
-					<td>{{ $training->aadress }}</td>
-					<td>
-						@if ($training->confirmed)
-							Jah
-						@else
-							Ei
-						@endif
-					</td>
-					<td>
-						{{ $training->owner }}
-					</td>
-				</tr>
-			@endforeach
-		</table>
+		<div id="admin-trainings-list">
+			@include("partials.admin-trainings-list")
+		</div>
 
 		<div class="panel-footer">
 			<div class="form-group">
@@ -56,9 +25,6 @@
 				{!! Form::submit('Kinnita tegevus' , ['class' => 'form-control btn btn-primary']) !!}
 			</div>
 		</div>
-
-		{!! Form::close() !!}
-
 	</div>
 
 	<div class="panel panel-default">

@@ -34,6 +34,7 @@ Admin routes
 Route::get('/admin', 'AdminController@index');
 //Actions with trainings
 Route::get('/admin/trainings', 'AdminController@trainings');
+Route::get('/admin/trainings/sort','AdminController@sortTrainings');
 Route::post('/admin/trainings/bulkedit', 'AdminController@trainingsBulkEdit');
 //Actions with users
 Route::get('/admin/users','AdminController@users');

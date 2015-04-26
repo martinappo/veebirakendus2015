@@ -54,9 +54,20 @@ class AdminController extends Controller {
 	 */
 	public function trainings()
 	{
-		$trainings = $this->getTrainingsWithUsers();
+		$trainings = $this->getTrainingsWithUsers('id','DESC');
 		$tags = Tag::latest()->get();
 		return view('admin.trainings', compact('trainings', 'tags'));
+	}
+
+		/**
+	 * Sort trainings by attribute.
+	 * @return Response
+	 */
+	public function sortTrainings()
+	{
+		$trainings = array();
+		$trainings = $this->getTrainingsWithUsers(Request::input('id'),Request::input('dir'));
+		return view('partials.admin-trainings-list', compact('trainings'));
 	}
 
 	/**
@@ -267,21 +278,22 @@ class AdminController extends Controller {
 	 * Joins user trainings table with user
 	 * @return array [Trainings with users]
 	 */
-	private function getTrainingsWithUsers() {
+	private function getTrainingsWithUsers($sortBy, $direction) {
 		$trainingsWithUser = array();
 		$trainingsWithUser = DB::select(
-			'SELECT 
-				trainings.id as id, 
+			'SELECT
+				trainings.id as id,
 				trainings.title,
 				trainings.confirmed,
 				trainings.description,
 				trainings.aadress,
-				users.id as owner_id, 
+				users.id as owner_id,
 				users.name as owner
 			FROM users
 			INNER JOIN trainings
 			ON users.id=trainings.user_id
-		');
+			ORDER BY '.$sortBy.' '.$direction
+		);
 
 		return $trainingsWithUser;
 	}

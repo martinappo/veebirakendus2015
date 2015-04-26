@@ -1,5 +1,4 @@
 if ($('#users-list').length){
-	alert("tekst");
 	$('body').on('click', '.sort', function(event){
 		startLoading();
 		event.preventDefault();
@@ -17,7 +16,7 @@ if ($('#users-list').length){
 			},
 			error: function(data) {
 				stopLoading();
-				console.error('Error in searching trainings');
+				console.error('Error in sorting users');
 				console.log(data.responseJSON);
 			}
 		});
