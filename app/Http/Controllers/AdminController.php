@@ -183,8 +183,20 @@ class AdminController extends Controller {
 				session()->flash('flash_message', 'Kasutaja(d) kustutatud!');
 				break;
 			case 'block':
+				/*
 				User::whereIn('id', $selectedUsers)->update(array('blocked' => true));
 				session()->flash('flash_message', 'Blokeering(ud) lisatud!');
+				break;
+				*/
+				foreach ($selectedUsers as $user)
+				{
+					$user = User::find($user);
+
+					$user->update(array('blocked' => true));
+					$message = $user->name .', Administraator blokeeris teie kasutaja.';
+					$this->notificationsRepo->create($user, 'Kasutaja blokeeritud', $message);
+				}
+				session()->flash('flash_message', 'Treening(ud) kinnitatud!');
 				break;
 			case 'unBlock':
 				User::whereIn('id', $selectedUsers)->update(array('blocked' => false));
@@ -220,6 +232,11 @@ class AdminController extends Controller {
 		$user->blocked_until = Request::input('blocked_until');
 		$user->block_reason = Request::input('block_reason');
 		$user->update();
+		if ($user->blocked)
+		{
+			$message = $user->name .', Administraator blokeeris teie kasutaja kuni ' . $user->blocked_until . ' järgneval põhjusel: ' .$user->block_reason;
+			$this->notificationsRepo->create($user, 'Kasutaja blokeeritud', $message);
+		}
 		session()->flash('flash_message', 'Kasutaja andmed uuendatud!');
 		return redirect('admin/users');
 	}
