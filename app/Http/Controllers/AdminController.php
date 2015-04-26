@@ -144,20 +144,7 @@ class AdminController extends Controller {
 	public function sortUsers()
 	{
 		$users = array();
-		switch (Request::input('id'))
-		{
-			case 'sort-name':
-				if (strcmp(Request::input('dir'), 'up') == 0)
-				{
-					$users = $this->getUsersWithInfo('users.name','ASC');
-				}
-				else
-				{
-					$users = $this->getUsersWithInfo('users.name','DESC');
-				}
-				break;
-		}
-
+		$users = $this->getUsersWithInfo(Request::input('id'),Request::input('dir'));
 		return view('partials.users-list', compact('users'));
 	}
 

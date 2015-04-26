@@ -4,14 +4,39 @@
 		<th>Valitud</th>
 		<th>
 			Nimi
-			<a href="users/sort" id="sort-name" dir="up" class="btn btn-default btn-xs sort">^</a>
+			<a href="users/sort" id="users.name" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="users.name" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
 		</th>
-		<th>E-mail</th>
-		<th>Roll</th>
-		<th>Treeninguid</th>
-		<th>Lugemata teateid</th>
-		<th>Blokeeritud</th>
-		<th>Blokeeringu lõpp</th>
+		<th>
+			E-mail
+			<a href="users/sort" id="users.email" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="users.email" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
+		<th>
+			Roll
+			<a href="users/sort" id="users.role" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="users.role" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
+		<th>
+			Treeninguid
+			<a href="users/sort" id="training_count" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="training_count" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
+		<th>
+			Lugemata teateid
+			<a href="users/sort" id="notifications_count" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="notifications_count" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
+		<th>
+			Blokeeritud
+			<a href="users/sort" id="users.blocked" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="users.blocked" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
+		<th>
+			Blokeeringu lõpp
+			<a href="users/sort" id="users.blocked_until" dir="ASC" class="btn btn-default btn-xs sort">&uarr;</a>
+			<a href="users/sort" id="users.blocked_until" dir="DESC" class="btn btn-default btn-xs sort">&darr;</a>
+		</th>
 	</tr>
 	@foreach ($users as $user)
 		<tr>
