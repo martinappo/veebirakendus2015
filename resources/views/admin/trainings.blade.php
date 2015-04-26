@@ -53,6 +53,8 @@
 			@endforeach
 		</table>
 	</div>
+@stop
 
-
+@section('footer')
+	<script src="/js/sort.trainings.js"></script>
 @stop

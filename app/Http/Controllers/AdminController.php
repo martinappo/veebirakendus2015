@@ -59,7 +59,7 @@ class AdminController extends Controller {
 		return view('admin.trainings', compact('trainings', 'tags'));
 	}
 
-		/**
+	/**
 	 * Sort trainings by attribute.
 	 * @return Response
 	 */
@@ -155,7 +155,7 @@ class AdminController extends Controller {
 	public function sortUsers()
 	{
 		$users = array();
-		$users = $this->getUsersWithInfo(Request::input('id'),Request::input('dir'));
+		$users = $this->getUsersWithInfo(Request::input('id'), Request::input('dir'));
 		return view('partials.users-list', compact('users'));
 	}
 
