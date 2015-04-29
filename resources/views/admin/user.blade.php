@@ -32,39 +32,40 @@
 					@else
 						Tundmatu
 					@endif
-					{!! Form::select('role', array('user'=>'Kasutaja','admin'=>'Administraator'), null, ['class' => 'form-control']) !!}
+					{!! Form::select('role', array('user'=>'Kasutaja','admin'=>'Administraator'), $user->role, ['class' => 'form-control']) !!}
 				</td>
 			</tr>
-			<tr>
-				<th>Blokeeritud</th>
-				<td>
-					@if ($user->blocked)
-						Jah
-					@else
-						Ei
-					@endif
-					{!! Form::select('blocked', array(0=>'Ei', 1=>'Jah'), null, ['class' => 'form-control']) !!}
-				</td>
-			</tr>
-			<tr>
-				<th>Blokeeringu lõpp</th>
-				<td>
-					@if ($user->blocked)
-						{{ $user->blocked_until }}
-					@endif
-					{!! Form::input('datetime-local', 'blocked_until') !!}
-				</td>
-			</tr>
-			<tr>
-				<th>Blokeeringu põhjus</th>
-				<td>
-					@if ($user->blocked)
-						{{ $user->block_reason }}
-					@endif
-					{!! Form::text('block_reason', null, ['class' => 'form-control']) !!}
-				</td>
-			</tr>
-
+			@if ($user->role == 'user')
+				<tr>
+					<th>Blokeeritud</th>
+					<td>
+						@if ($user->blocked)
+							Jah
+						@else
+							Ei
+						@endif
+						{!! Form::select('blocked', array(0=>'Ei', 1=>'Jah'), $user->blocked, ['class' => 'form-control']) !!}
+					</td>
+				</tr>
+				<tr>
+					<th>Blokeeringu lõpp</th>
+					<td>
+						@if ($user->blocked)
+							{{ $user->blocked_until }}
+						@endif
+						{!! Form::input('datetime-local', 'blocked_until', null, ['class' => 'form-control']) !!}
+					</td>
+				</tr>
+				<tr>
+					<th>Blokeeringu põhjus</th>
+					<td>
+						@if ($user->blocked)
+							{{ $user->block_reason }}
+						@endif
+						{!! Form::text('block_reason', null, ['class' => 'form-control']) !!}
+					</td>
+				</tr>
+			@endif
 			<tr>
 				<th>Registreerunud</th>
 				<td>{{ $user->created_at }}</td>
@@ -78,7 +79,7 @@
 				<td>{{ $user->fb_id }}</td>
 			</tr>
 		</table>
-		{!! Form::submit('Kinnita' , ['class' => 'btn btn-primary']) !!}
+		{!! Form::submit('Kinnita muudatused' , ['class' => 'btn btn-primary']) !!}
 
 	{!! Form::close() !!}
 
