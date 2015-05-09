@@ -11,7 +11,8 @@
 @endif
 {!! Form::text('aadress', null, ['id' => 'aadress', 'class' => 'form-control', 'placeholder' => 'Sisesta aadress']) !!}
 <div id="map-container-form" class="map-container"></div>
-{!! Form::hidden('coordinates', null, ['id' => 'coordinates']) !!}
+{!! Form::hidden('longitude', null, ['id' => 'longitude']) !!}
+{!! Form::hidden('latitude', null, ['id' => 'latitude']) !!}
 
 <div class="form-group">
 	{!! Form::label('title', 'Nimi') !!}

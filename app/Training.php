@@ -19,7 +19,8 @@ class Training extends Model {
 	protected $fillable = [
 		'aadress',
 		'title',
-		'coordinates',
+		'longitude',
+		'latitude',
 		'type',
 		'description',
 		'user_id',
@@ -69,6 +70,25 @@ class Training extends Model {
 			->join('tag_training', 'tag_training.training_id', '=', 'trainings.id')
 			->whereIn('tag_training.tag_id', $tags)
 			->groupBy('trainings.id');
+	}
+
+	/**
+	 * Get trainings in radius
+	 * @param $query
+	 * @return void
+	 */
+	public function scopeFilterByRadius($query, $lat, $lon, $rad) {
+		//Earth radius
+		$R = 6371;
+		// first-cut bounding box (in degrees)
+		$maxLat = $lat + rad2deg($rad/$R);
+		$minLat = $lat - rad2deg($rad/$R);
+		// compensate for degrees longitude getting smaller with increasing latitude
+		$maxLon = $lon + rad2deg($rad/$R/cos(deg2rad($lat)));
+		$minLon = $lon - rad2deg($rad/$R/cos(deg2rad($lat)));
+
+		$query->whereBetween('latitude', array($minLat, $maxLat))
+		->whereBetween('longitude', array($minLon, $maxLon));
 	}
 
 	/**

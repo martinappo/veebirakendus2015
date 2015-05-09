@@ -4,15 +4,15 @@ var marker;
 var geocoder;
 var input = (document.getElementById('aadress')); //html5 object of input
 var aadressInput = $( "input#aadress" );
-var coordinatesInput = $ ( "input#coordinates" );
+var latitudeInput = $ ( "input#latitude" );
+var longitudeInput = $ ( "input#longitude" );
 
 function initialize() {
 	geocoder = new google.maps.Geocoder();
 
-	if (coordinatesInput.val()){
+	if (latitudeInput.val() & longitudeInput.val()){
 		//Parse coordinates of current training
-		var coordinates = coordinatesInput.val().replace(/[\)\(\s]/g, '').split(',');
-		var coordinatesLatLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
+		var coordinatesLatLng = new google.maps.LatLng(latitudeInput.val(), longitudeInput.val());
 		var zoom = 15;
 	}
 	else {
@@ -27,7 +27,7 @@ function initialize() {
 	};
 	map = new google.maps.Map(document.getElementById('map-container-form'), mapOptions);
 
-	if (coordinatesInput.val()){
+	if (latitudeInput.val() & longitudeInput.val()){
 		placeMarker(coordinatesLatLng);
 	}
 
@@ -80,7 +80,8 @@ function placeMarker(location) {
 	geocodePosition(location);
 
 	//Set coordinates input
-	coordinatesInput.val(location);
+	latitudeInput.val(location.A);
+	longitudeInput.val(location.F);
 
 	var infoWindow = new google.maps.InfoWindow({
 		content: aadressInput.val(),

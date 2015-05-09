@@ -10,6 +10,9 @@ if ($('#search-trainings').length){
 				tag_list: $('#tag_list').val(),
 				what: $('#what').val(),
 				direction: $('#direction').val(),
+				latitude: $('#latitude').val(),
+				longitude: $('#longitude').val(),
+				radius: $('#radius').val()
 			},
 			success: function(data) {
 				stopLoading();

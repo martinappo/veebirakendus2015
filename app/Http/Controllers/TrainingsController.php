@@ -245,7 +245,11 @@ class TrainingsController extends Controller {
 		$tags = Request::input('tag_list');
 		if (empty($tags))
 		{
-			return Response::json('empty', 400);
+			$trainings = Training::latest()->
+				confirmed()->
+				filterByRadius(Request::input('latitude'), Request::input('longitude'), Request::input('radius'))->
+				get();
+			return view('partials.trainings-list', compact('trainings'));
 		}
 		$realTags = array();
 		$userKeywords = array();
@@ -266,14 +270,18 @@ class TrainingsController extends Controller {
 		//Special case: if sorting by accuracy of keywords:
 		if ( strcmp(Request::input('what'), 'none') == 0 )
 		{
-			$trainings = Training::tagsSearch($realTags)->
+			$trainings = Training::confirmed()->
+				tagsSearch($realTags)->
 				keywordSearch($userKeywords)->
+				filterByRadius(Request::input('latitude'), Request::input('longitude'), Request::input('radius'))->
 				orderBy(DB::raw('count(*)'), Request::input('direction'))->get();
 		}
 		else
 		{
-			$trainings = Training::tagsSearch($realTags)->
+			$trainings = Training::confirmed()->
+				tagsSearch($realTags)->
 				keywordSearch($userKeywords)->
+				filterByRadius(Request::input('latitude'), Request::input('longitude'), Request::input('radius'))->
 				orderBy(Request::input('what'), Request::input('direction'))->get();
 		}
 

@@ -27,6 +27,7 @@ elixir(function(mix) {
 		'libs/select2.min.js',
 		'common.js',
 		'custom.map.js',
+		'custom.map.search.js',
 		'trainings.page.js',
 	],
 	'public/js/main.min.js'

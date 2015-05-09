@@ -1,16 +1,28 @@
-if ($('#map-container').length){
+if ($('#map-container-search').length){
 	var map;
+	var marker;
+	var latitudeInput = $ ( "input#latitude" );
+	var longitudeInput = $ ( "input#longitude" );
 
 	function initialize() {
 		var estonia = new google.maps.LatLng(58.886, 25.547);
+		//Set coordinates input
+		latitudeInput.val(estonia.A);
+		longitudeInput.val(estonia.F);
 		//Map itself
 		var mapOptions = {
 			center: estonia,
 			zoom: 8
 		};
-		map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+		map = new google.maps.Map(document.getElementById('map-container-search'), mapOptions);
 
 		getTrainings();
+
+		//Add listener for choosing place from map
+		google.maps.event.addListener(map, 'click', function(event) {
+			placeMarkerForSearching(event.latLng);
+		});
 	}
 
 	function getTrainings() {
@@ -51,6 +63,25 @@ if ($('#map-container').length){
 		google.maps.event.addListener(marker, 'click', function() {
 			infoWindow.open(map,marker);
 		});
+	}
+
+	function placeMarkerForSearching(location) {
+		//Remove last marker
+		if (marker) {
+			marker.setMap(null);
+		}
+
+		//Adding marker
+		marker = new google.maps.Marker({
+			position: location,
+			map: map,
+		});
+
+		//Set coordinates input
+		latitudeInput.val(location.A);
+		longitudeInput.val(location.F);
+
+		map.setZoom(15);
 	}
 
 	function loadScript() {
