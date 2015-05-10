@@ -26,11 +26,20 @@ elixir(function(mix) {
 		'libs/bootbox.min.js',
 		'libs/select2.min.js',
 		'common.js',
-		'custom.map.js',
-		'custom.map.search.js',
-		'trainings.page.js',
 	],
 	'public/js/main.min.js'
+	)
+
+	mix.scripts([
+		'custom.map.js'
+	],
+	'public/js/index.min.js'
+	)
+
+	mix.scripts([
+		'trainings.page.js'
+	],
+	'public/js/trainings.min.js'
 	)
 
 	mix.scripts([

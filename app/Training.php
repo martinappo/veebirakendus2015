@@ -122,6 +122,13 @@ class Training extends Model {
 	}
 
 	/**
+	 * A training can have many comments
+	*/
+	public function comments() {
+		return $this->hasMany('App\Comment');
+	}
+
+	/**
 	* Check if user is owner of the training
 	*/
 	public function isTheOwner($user) {

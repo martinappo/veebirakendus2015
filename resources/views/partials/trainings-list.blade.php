@@ -1,6 +1,6 @@
 @if (count($trainings))
 	@foreach($trainings as $training)
-		<div class="panel panel-default">
+		<div class="panel panel-default" id="{{ $training->id }}">
 			<div class="panel-heading">
 				<h3 class="panel-title pull-left">
 					{{ $training->title }}
@@ -23,6 +23,7 @@
 						<div class="small">Pilt puudub</div>
 					@endif
 				</div>
+
 				<div class="col-md-9 col-sm-8">
 					<p><b>Aadress:</b> {{ $training->aadress }}</p>
 					<p><b>Kirjeldus:</b> {{ $training->description }}</p>
@@ -42,6 +43,31 @@
 						</div>
 					</div>
 				</div>
+				<!-- comments -->
+				<div class="clearfix"></div>
+				<hr>
+				<a class="btn btn-default btn-xs" data-toggle="collapse" href="#comments-{{ $training->id }}" aria-expanded="false" aria-controls="comments-{{ $training->id }}">
+					Kommentaarid
+				</a>
+				<div class="comments-container row collapse" id="comments-{{ $training->id }}">
+					@if(!Auth::Guest())
+
+						<div class="col-md-4">
+							<h5>Lisa kommentaar</h5>
+							<textarea name="content" id="comment-{{ $training->id }}" class="form-control"></textarea>
+							<br>
+							<button class="btn btn-default add-comment" training="{{ $training->id }}">Lisa</button>
+						</div>
+
+						<div class="col-md-8 comments" >
+							@include('partials.comments', ['comments' => $training->comments()->get()])
+						</div>
+
+					@else
+						@include('partials.comments', ['comments' => $training->comments()->get()])
+					@endif
+				</div>
+
 			</div>
 		</div>
 	@endforeach

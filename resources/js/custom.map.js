@@ -1,4 +1,3 @@
-if ($('#map-container').length){
 	var map;
 
 	function initialize() {
@@ -8,6 +7,7 @@ if ($('#map-container').length){
 			center: estonia,
 			zoom: 8
 		};
+
 		map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
 
 		getTrainings();
@@ -60,4 +60,3 @@ if ($('#map-container').length){
 		document.body.appendChild(script);
 	}
 	window.onload = loadScript;
-}

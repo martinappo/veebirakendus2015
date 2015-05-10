@@ -21,3 +21,7 @@
 	</div>
 </div>
 @endsection
+
+@section('footer')
+	<script src="/js/index.min.js"></script>
+@stop

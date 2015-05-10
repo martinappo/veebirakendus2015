@@ -8,6 +8,10 @@ Route::resource('trainings', 'TrainingsController');
 Route::put('trainings/{id}/upload', 'TrainingsController@upload');
 Route::delete('trainings/file/{id}', 'TrainingsController@destroyTrainingFile');
 
+/*
+Comments routes
+ */
+Route::resource('comments', 'CommentsController');
 
 /*
 Home routes

@@ -46,6 +46,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * A user can have many comments
+	*/
+	public function comments() {
+		return $this->hasMany('App\Comment');
+	}
+
+	/**
 	 * A user can have many notifications
 	*/
 	public function notifications() {

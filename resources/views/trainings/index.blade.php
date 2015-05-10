@@ -57,3 +57,7 @@
 	</div>
 
 @stop
+
+@section('footer')
+	<script src="/js/trainings.min.js"></script>
+@stop
