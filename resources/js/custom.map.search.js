@@ -81,7 +81,6 @@ if ($('#map-container-search').length){
 		latitudeInput.val(location.A);
 		longitudeInput.val(location.F);
 
-		map.setZoom(15);
 	}
 
 	function loadScript() {

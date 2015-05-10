@@ -25,12 +25,17 @@ class TrainingsController extends Controller {
 	 */
 	protected $notificationsRepo;
 
+	protected $training;
+
 	/**
 	 * Create a new trainings controller
 	 */
-	public function __construct(NotificationsRepository $notificationsRepo)
+	public function __construct(NotificationsRepository $notificationsRepo, Training $training)
 	{
+		$this->training = $training;
+
 		$this->notificationsRepo = $notificationsRepo;
+
 		$this->middleware('auth', ['except' => array('index', 'trainingsForMap', 'search') ]);
 		$this->middleware('trainingOwner', ['only' => array('edit','update') ]);
 	}
@@ -42,7 +47,7 @@ class TrainingsController extends Controller {
 	 */
 	public function index()
 	{
-		$trainings = Training::latest()->confirmed()->get();
+		$trainings = $this->training->latest()->confirmed()->get();
 		$tags = Tag::lists('name', 'id');
 
 		return view('trainings.index', compact('trainings','tags'));
@@ -62,7 +67,7 @@ class TrainingsController extends Controller {
 
 	/**
 	 * Store trainings to database 
-	 * and redirect to trainings
+	 * and redirect to edit training
 	 * 
 	 * @param  TrainingRequest
 	 * @return Response
@@ -70,8 +75,6 @@ class TrainingsController extends Controller {
 	public function store(TrainingRequest $request)
 	{
 		$training = $this->createTraining($request);
-
-		session()->flash('flash_message', 'Treening lisatud! Nüüd võid lisada oma treeningule ka pilte.');
 
 		$tags = Tag::lists('name', 'id');
 
@@ -81,7 +84,7 @@ class TrainingsController extends Controller {
 			$this->notificationsRepo->createMany(User::where('role', 'admin')->get(), 'Uus treening lisatud!', $message);
 		}
 
-		return view('trainings.edit', compact('training', 'tags'));
+		return redirect()->action('TrainingsController@edit', [$training->id])->with('flash_message', 'Treening lisatud! Nüüd võid lisada oma treeningule ka pilte.');
 	}
 
 	/**
@@ -94,7 +97,7 @@ class TrainingsController extends Controller {
 	{
 		$tags = Tag::lists('name', 'id');
 
-		$training = Training::findOrFail($id);
+		$training = $this->training->findOrFail($id);
 		return view('trainings.edit', compact('training', 'tags'));
 	}
 
@@ -109,7 +112,7 @@ class TrainingsController extends Controller {
 	 */
 	public function update($id, TrainingRequest $request)
 	{
-		$training = Training::findOrFail($id);
+		$training = $this->training->findOrFail($id);
 		$oldStatus = $training->confirmed;
 
 		$isAdmin = Auth::user()->isAdmin();
@@ -150,7 +153,7 @@ class TrainingsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		$training = Training::findOrFail($id);
+		$training = $this->training->findOrFail($id);
 		$training->delete();
 
 		session()->flash('flash_message', 'Treening kustutatud!');
@@ -165,7 +168,7 @@ class TrainingsController extends Controller {
 	 */
 	public function trainingsForMap()
 	{
-		return Training::latest()->confirmed()->get();
+		return $this->training->latest()->confirmed()->get();
 	}
 
 	/**
@@ -245,7 +248,7 @@ class TrainingsController extends Controller {
 		$tags = Request::input('tag_list');
 		if (empty($tags))
 		{
-			$trainings = Training::latest()->
+			$trainings = $this->training->latest()->
 				confirmed()->
 				filterByRadius(Request::input('latitude'), Request::input('longitude'), Request::input('radius'))->
 				get();
@@ -270,7 +273,7 @@ class TrainingsController extends Controller {
 		//Special case: if sorting by accuracy of keywords:
 		if ( strcmp(Request::input('what'), 'none') == 0 )
 		{
-			$trainings = Training::confirmed()->
+			$trainings = $this->training->confirmed()->
 				tagsSearch($realTags)->
 				keywordSearch($userKeywords)->
 				filterByRadius(Request::input('latitude'), Request::input('longitude'), Request::input('radius'))->
@@ -278,7 +281,7 @@ class TrainingsController extends Controller {
 		}
 		else
 		{
-			$trainings = Training::confirmed()->
+			$trainings = $this->training->confirmed()->
 				tagsSearch($realTags)->
 				keywordSearch($userKeywords)->
 				filterByRadius(Request::input('latitude'), Request::input('longitude'), Request::input('radius'))->

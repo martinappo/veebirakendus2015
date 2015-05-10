@@ -66,7 +66,7 @@ class AdminController extends Controller {
 	public function sortTrainings()
 	{
 		$trainings = array();
-			$trainings = $this->getTrainingsWithUsers(Request::input('id'), Request::input('dir'));
+		$trainings = $this->getTrainingsWithUsers(Request::input('id'), Request::input('dir'));
 		return view('partials.admin-trainings-list', compact('trainings'));
 	}
 
