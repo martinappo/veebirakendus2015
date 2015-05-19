@@ -52,6 +52,34 @@
 			}, 10000);
 		</script>
 	@endif
+
+	<footer class="container-fluid" id="mainfooter">
+		<div class="row">
+			<div class="container">
+				<div class="col-md-4">
+					<h1 class="logo">LeiaTrenn</h1>
+				</div>
+				<div class="col-md-4">
+					See on arendusfaasis kooliprojekt. Kui tekib küsimusi või soovitusi võtke ühendust <a href="mailto:martinappo@gmail.com">martinappo@gmail.com</a>
+				</div>
+				<div class="col-md-4">
+					<ul id="footermenu">
+						@if (Auth::guest())
+							<li><a href="/auth/login" class="open-in-modal" title="Logi sisse">Logi sisse</a></li>
+							<li><a href="/auth/register">Registreeri</a></li>
+						@else
+							<li><a href="/auth/logout">Logi välja</a></li>
+							<li><a href="/profile">Profiil</a></li>
+							@if (Auth::user()->isAdmin())
+							<li><a href="/admin">Admin</a></li>
+							@endif
+						@endif
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	</footer>
 	@yield('footer')
 </body>
 </html>

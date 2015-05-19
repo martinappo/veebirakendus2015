@@ -15,6 +15,21 @@
 
 nav.navbar {
 	margin-bottom: 0px;
+	background-color: rgba(215, 40, 40, 0.9);
+	border: none;
+	border-radius: 0px;
+}
+
+nav.navbar .navbar-brand {
+	color: #fff;
+}
+
+nav.navbar ul.nav li a {
+	color: #fff;
+}
+
+nav.navbar ul.dropdown-menu li a {
+	color: #000;
 }
 
 #mainContainer {
@@ -68,4 +83,52 @@ nav.navbar {
 .rate.active, .rate:hover {
 	color:  #fff;
 	border: solid 2px #222;
+}
+
+/* footer */
+
+#mainfooter {
+	margin-top: 40px;
+	height: 200px;
+	background-color: rgba(215, 40, 40, 0.9);
+	padding-top: 70px;
+	padding-bottom: 10px;
+	color: #fff;
+	text-align: center;
+}
+
+#mainfooter a {
+	color: #fff;
+}
+
+ul#footermenu {
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+
+#footermenu li a {
+	color: #fff;
+}
+
+/* panels */
+
+.panel.panel-default {
+	border-color: rgba(215, 40, 40, 0.9);
+	border-radius: 2px;
+}
+
+.panel.panel-default .panel-heading {
+	border-color: rgba(215, 40, 40, 0.5);
+	background-color: rgba(215, 40, 40, 0.9);
+	border-radius: 0px;
+	color: #fff;
+}
+
+.btn {
+	border-radius: 2px;
+}
+
+a {
+	color:  rgba(215, 40, 40, 0.9);
 }
